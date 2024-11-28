@@ -1,0 +1,4 @@
+创建表格:
+    create database user;    -- user 为库名
+
+
