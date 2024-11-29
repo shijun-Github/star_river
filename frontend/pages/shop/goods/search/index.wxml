@@ -1,0 +1,45 @@
+
+<view class="header" style="display:flex;position:fixed;top:0rpx;z-index:999;width:100%;height:60rpx;background:#fff;text-align:left;">
+  <view class="input-box" style="display:flex;align-items:center;justify-content:left;width:550rpx;border-radius:32rpx;border-color:#a01313;background:#f3f3f3;margin-left:20rpx;">
+    <input confirm-type="search" bindinput="handleSubmit" class="search-word" placeholder="🔍 牛奶" bindconfirm="searchbegin" focus="true"></input>
+  </view>
+  <view class="button" style="display:flex;align-items:center;margin-left:30rpx;color:#999999;font-size: 36rpx;" bind:tap="searchbegin">搜索</view>
+</view>
+<view class="order" style="display:flex;flex-direction:row;white-space:nowrap;justify-content:space-around;position:fixed;z-index:999;top:60rpx;width:100%;font-size:28rpx;font-weight:500;color:#bbb;background:#fff;">
+  <view class="{{current_order_flag===item.id?'tab-active':''}}" 
+  style="margin:10rpx 20rpx;padding:0rpx 0rpx;height:60rpx;line-height:60rpx;font-size:28rpx;font-weight:600;" 
+  wx:for="{{goods_order_list}}" wx:key="index" bind:tap="select_order" data-id="{{item.id}}">{{item.name}}</view>
+</view>
+
+<view class="body" style="display:flex;margin-top:160rpx;background:#f5f5f5;">
+  <view class="glist" style="margin:6rpx 16rpx;">
+    <view class="card" style="display:flex;height:250rpx;margin:10rpx 0;padding: 20rpx 10rpx;border-radius:16rpx;background-color: #fff;" bind:tap="goto_goods_detail" data-goods_detail_home="{{item}}" wx:for="{{ goods_list }}" wx:key="id">
+      <view class="c-left" style="display:flex;flex-direction:column;width:40%;height:100%;">
+        <image style="display:flex;border-radius:16rpx;width:250rpx;height:250rpx;" mode="aspectFill" src="{{item.goods_info.whiteImage}}"></image>
+      </view>
+      <view class="c-right" style="display: flex;flex-direction: column;width:60%;height: 100%;">
+        <view class="card-down-upper" style="display:flex;flex-direction:column;overflow:hidden;flex:1 1 auto;">
+          <view class="t-title" style="font-size:28rpx;display:-webkit-box;overflow:hidden;-webkit-box-orient: vertical;-webkit-line-clamp: 2;">{{item.goods_info.skuName}}</view>
+          <view class="shop-name" style="text-align:left;color:#fa4126;font-size:22rpx;line-height:30rpx;margin-top:20rpx;padding:0 8rpx;font-weight:600;">店铺：{{item.goods_info.shopName}}</view>
+          <view class="tags" style="display:flex;flex-direction:row;flex-wrap:wrap;margin: 8rpx0 0 0;">
+            <view class="tag" style="border:0rpx solid #bbbbbb;border-radius:10rpx;margin-top:10rpx;padding:5rpx 10rpx;font-size:20rpx;color: #bbbbbb;"> 券 | ¥ {{item.goods_info.couponList[0].discount}}</view>
+            <text class="tag" style="border:0rpx solid #bbbbbb;border-radius:10rpx;margin-top:10rpx;padding:5rpx 10rpx;font-size:20rpx;color: #bbbbbb;" wx:if="{{item.goods_info.priceInfo.historyPriceDay > 0}}">近{{item.goods_info.priceInfo.historyPriceDay}}天最低价</text>
+          </view> 
+        </view>
+        <view class="card-down-down" style="display:flex;justify-content:space-between;align-items:baseline;font-size:18rpx;color:#bbbbbb;">
+          <view style="font-size: 26rpx; color: #fa4126;">到手价¥{{item.goods_info.lowestCouponPrice}}</view>
+          <view>原价¥{{item.goods_info.price}}</view>
+          <view>推荐分 {{item.goods_info.couponCommission}}</view>
+          <view wx:if="{{item.platform == 'jd'}}">
+            <image src='../../images/jd_logo.png'  style="width: 64rpx; height: 64rpx; margin-top: -35rpx; margin-bottom: -5rpx;"  mode="aspectFill"></image> 
+          </view>
+          <view wx:if="{{item.platform == 'pdd'}}">
+            <image src='../../images/pdd_logo.png'  style="width: 80rpx; height: 66rpx; margin-top: -35rpx; margin-bottom: -5rpx;"  mode="aspectFill"></image> 
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <image class='ttgo-top' style=" height: 80rpx;width:80rpx;position:fixed;bottom:50px;background: rgba(0,0,0,.3);right: 30rpx;border-radius:50%;opacity: 0.8;" 
+    src='../../images/up_top.png' hidden='{{!floorstatus}}' bindtap="go_top"></image>
+ </view>

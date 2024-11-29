@@ -1,0 +1,46 @@
+{
+  "pages": [
+    "pages/shop/home_new/home",
+
+    "pages/shop/home/home",
+    "pages/shop/goods/details-jd/index",
+    "pages/shop/goods/details-pdd/index",
+    "pages/shop/goods/search/index",
+    
+    "pages/entertainment/home/home",
+    "pages/entertainment/details_single/index",
+    
+    "pages/finance/home/home",
+
+    "pages/usercenter/index"
+  ],
+  "lazyCodeLoading": "requiredComponents",
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#FF9C35",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/shop/home_new/home",
+        "text": "购物"
+      },
+      {
+        "pagePath": "pages/entertainment/home/home",
+        "text": "视频"
+      },
+      {
+        "pagePath": "pages/finance/home/home",
+        "text": "理财"
+      },
+      {
+        "pagePath": "pages/usercenter/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "window": {
+    "navigationStyle": "custom"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

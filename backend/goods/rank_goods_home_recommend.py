@@ -21,8 +21,19 @@ def func_main_goods_home_recommend(parm_in):
     goods_info = pd.read_csv(path_data)
     df_deal = goods_info
     df_deal_page = df_deal[(parm_in['page_index'] - 1) * parm_in['page_size']: parm_in['page_index'] * parm_in['page_size']]
-    df_deal_page_dict = df_deal_page.to_dict(orient='records')
-    return df_deal_page_dict
+    # df_deal_page_dict = df_deal_page.to_dict(orient='records')
+    # print(df_deal_page_dict)
+    # pprint(df_deal_page_dict[0])
+    res = []
+    for index, row in df_deal_page.iterrows():
+        res.append({
+            'item_id': row['item_id'],
+            'item_name': row['item_name'],
+            'author_name': row['author_name'],
+            'cover_url': row['cover_url'],
+            'extend': json.loads(row['extend'])
+        })
+    return res
 
 
 if __name__ == '__main__':
@@ -31,6 +42,7 @@ if __name__ == '__main__':
     """
     parm = {
         'page_index': 1,
-        'page_size': 10
+        'page_size': 10,
+        'channel': 1
     }
     func_main_goods_home_recommend(parm)

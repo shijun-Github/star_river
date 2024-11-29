@@ -59,13 +59,13 @@ def func_get_goods_info_jd():
                             'author_name': item_info_ori['shopInfo']['shopName'],
                             'cover_url': item_info_ori['imageInfo']['imageList'][0]['url'],
                             # 商品参数
-                            'extend': {
-                                'price': item_info_ori['priceInfo']['price'],
+                            'extend': json.dumps([
+                                '原价:' + str(item_info_ori['priceInfo']['price']),
                                 # 如果没有优惠券，这条数据就不要了
-                                'coupon_discount': [cp['discount'] for cp in item_info_ori['couponInfo']['couponList'] if cp['isBest'] == 1][0],
-                                'price_coupon': item_info_ori['priceInfo']['lowestCouponPrice'],
-                                'commission': item_info_ori['commissionInfo']['couponCommission'],
-                            },
+                                '券额:' + str([cp['discount'] for cp in item_info_ori['couponInfo']['couponList'] if cp['isBest'] == 1][0]),
+                                '券后:' + str(item_info_ori['priceInfo']['lowestCouponPrice']),
+                                '评分:' + str(item_info_ori['commissionInfo']['couponCommission']),
+                            ]),
                         }
                         value_batch.append(need_feature)
                     except Exception as ex:
@@ -82,5 +82,5 @@ if __name__ == '__main__':
     """
     """
     print("扛起达到向前冲！！！")
-    get_goods_info_jd()
+    func_get_goods_info_jd()
 

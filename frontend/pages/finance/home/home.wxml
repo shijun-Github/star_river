@@ -1,0 +1,43 @@
+<!--pages/finance/home/home.wxml-->
+
+<view class="head" style="display:flex;flex-direction:column;background-color: #f5f5f5;">
+  <view class="channel" style="margin:6rpx 10rpx;">
+    <view class="channel-list" style="display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;border-radius: 16rpx;color:#bbb;background: #fff;">
+      <view class="channel-item" style="margin:10rpx 12rpx;padding: 0rpx 20rpx;background-color: #f5f5f5;border-radius:10rpx;height:60rpx;line-height: 60rpx;font-size: 28rpx;" 
+        wx:for="{{channel_list}}" wx:key="index">{{item.name}}</view>
+    </view>
+  </view>
+  <view class="beizhu-list" style="margin:6rpx 10rpx;">
+    <view class="beizhu" style="display:flex;flex-direction:column;margin-top:10rpx;padding: 0 10rpx;border-radius: 16rpx;background-color: #fff;">
+      <view class="row" style="margin-top:20rpx;font-size:26rpx;">可以申购：这个基金可以购买</view>
+      <view class="row" style="margin-top:10rpx;font-size:26rpx;">暂停申购：这个基金无法购买，但是可以关注起来</view>
+      <view class="row" style="margin-top:10rpx;font-size:26rpx;">一个号盈利：一个号一天可以盈利多少元,可以多个账号同时买</view>
+      <view class="row" style="margin-top:10rpx;font-size:26rpx;">点击基金，可以跳转到该基金的购买操作步骤视频</view>
+      <view class="row" style="margin-top:10rpx;margin-bottom: 20rpx; font-size:27rpx;color:#fa4126;">当一个基金可以申购，申购金额上限小于100且溢价率大于3%就值得操作，几分钟赚几十块</view>
+    </view>
+  </view>
+</view>
+
+<view class="body" style="display:flex;background-color: #f5f5f5;">
+  <view class="item-list" style="margin:6rpx 10rpx;">
+      <view class="card" style="display:flex;margin:10rpx 0;padding: 20rpx 10rpx;border-radius: 16rpx;background-color: #fff;" wx:for="{{ item_list }}" wx:key="id">
+        <view class="c-left" style="display:flex;flex-direction:column;width:30%;height:100%;">
+          <view class="title" style="font-size: 28rpx;">{{item.title}}</view>
+          <view class="title" style="font-size: 20rpx; margin-top: 10rpx;">代码 {{item.id}}</view>
+        </view>
+        <view class="c-right" style="display: flex;flex-direction: column;width:70%;height: 100%;">
+          <view class="tags" style="display:flex;flex-direction:row;flex-wrap:wrap;">   <!-- margin 上右下左 -->
+              <view class="tag" style="font-size:24rpx;color: #fa4126;padding: 1rpx 18rpx;">溢价率 {{item.premium}}</view>
+              <view class="tag" style="font-size:24rpx;color: #fa4126;padding: 1rpx 18rpx;" wx:if="{{item.buy_state=='限大额'}}">申购金额上限 ¥{{item.buy_up}}</view>
+              <view class="tag" style="font-size:24rpx;color: #fa4126;padding: 1rpx 56rpx 1rpx 18rpx;" wx:if="{{item.buy_state=='限大额'}}">可以申购</view>
+              <view class="tag" style="font-size:24rpx;color: #fa4126;padding: 1rpx 18rpx;" wx:if="{{item.buy_state=='限大额'}}">一个号盈利 ¥{{item.day_earnings}}</view>
+              <view class="tag" style="font-size:24rpx;color: #fa4126;padding: 1rpx 18rpx;" wx:if="{{item.buy_state!='限大额'}}">{{item.buy_state}}</view>
+          </view>
+        </view>
+      </view>
+  </view>
+
+  <image class='ttgo-top' style=" height: 80rpx;width:80rpx;position:fixed;bottom:50px;background: rgba(0,0,0,.3);right: 30rpx;border-radius:50%;opacity: 0.8;" 
+    src='../../images/up_top.png' hidden='{{!floorstatus}}' bindtap="go_top"></image>
+
+</view>

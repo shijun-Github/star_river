@@ -1,0 +1,80 @@
+<!-- 搜索顶部-->
+<view  style="height:{{navHeight}}px;background:#ffffff;position: sticky;top: 0px;z-index:99999; " >
+  <view class="t-custom-bar__wrapper" style="display:flex;justify-content:center;align-items: center;left:24rpx;padding: 0 10rpx;margin-top:{{searchMarginTop}}px; height: {{searchHeight}}px;width: {{searchWidth}}px;position:absolute;">
+    <view class="t-search-group" bind:tap="goto_search_page" style="position:absolute;width:100%;height:100%;display: flex;justify-content: flex-start;align-items: center;background:#F0F8FF ;border-radius: 100rpx;padding: 0 15rpx;">{{'🔍 搜索商品~'}}</view>
+  </view>
+</view>
+
+<!-- 头部 -->
+<view class="head" style="background: #f5f5f5;">
+  <view class="outer {{scrollTop > 300 ? 'topnav' : ''}}">
+    <scroll-view class="t-channel"
+      style="display:flex;flex-direction:row;white-space:nowrap;align-items:left;justify-content:left;height:80rpx;width:100%;background:#fff"
+      enable-flex scroll-x="{{true}}">
+      <view class="{{current_channel===item.id?'channel-active':''}}"
+        style="margin:10rpx 20rpx;padding:0rpx 0rpx;height:60rpx;line-height:60rpx;font-size:28rpx;font-weight:600;"
+        wx:for="{{channel_list}}" wx:key="index" bind:tap="select_channel" data-id="{{item.id}}">{{item.name}}</view>
+    </scroll-view>
+  </view>
+</view>
+
+<!-- 内容列表 -->
+<view class="body" style="display:flex;background:#f5f5f5;padding:6rpx 14rpx;">
+  <!-- 左列 -->
+  <view class="item-list" style="margin:6rpx 16rpx;">
+     <view class="card" style="display:flex;width:354rpx;border-radius:16rpx;align-items:center;justify-content:center;margin-bottom:14rpx;flex-direction:column;background:#fff;"  wx:for="{{ item_list_l }}" wx:key="index">
+       <view class="card-upper" style="display:flex;justify-content:center;align-items:center;width:100%;height:100%;" bind:tap="goto_video_detail_page" bind:tap="goto_goods_detail" data-goods_detail_home="{{item}}">
+        <image class="iiimage" style="display:flex;border-radius:16rpx 16rpx 0 0;widthwidth:" src="{{ item.cover_url }}" mode="aspectFill"></image>
+      </view>
+      <view class="card-down" style="display:flex;flex-direction:column;background:#fff;width:332rpx;border-radius:0 0 16rpx 16rpx;padding:16rpx 10rpx;" bind:tap="goto_goods_detail" data-goods_detail_home="{{item}}">
+        <view class="card-down-upper" style="display:flex;flex-direction:column;overflow:hidden;flex:1 1 auto;">
+          <view class="t-title" style="font-size:28rpx;display:-webkit-box;overflow:hidden;-webkit-box-orient: vertical;-webkit-line-clamp: 2;">{{item.item_name}}</view>
+
+          <view class="goods-tags" wx:for="{{ item.extend }}" wx:key="index">
+            <view class="goods-tag">{{item}}</view>
+          </view>
+
+        </view>
+        <view class="card-down-down" style="display:flex;justify-content:space-between;align-items:baseline;font-size:22rpx;color:#bbbbbb;">
+          <view class="card-down-down" style="display:flex;justify-content:space-between;align-items:baseline;font-size:22rpx;color:#bbbbbb;">
+            <view style="font-size: 26rpx; color: #fa4126;">到手价¥ </view>
+            <view style="font-size: 36rpx; color: #fa4126;">{{item.goods_info.priceInfo.lowestCouponPrice}}</view>
+          </view>
+          <view>原价¥{{item.goods_info.priceInfo.price}}</view>
+          <view>推荐分 {{item.goods_info.commissionInfo.couponCommission}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 右列-->
+  <view class="item-list" style="margin:6rpx 16rpx;">
+   <view class="card" style="display:flex;width:354rpx;border-radius:16rpx;align-items:center;justify-content:center;margin-bottom:14rpx;flex-direction:column;background:#fff;"  wx:for="{{ item_list_r }}" wx:key="index">
+     <view class="card-upper" style="display:flex;justify-content:center;align-items:center;width:100%;height:100%;" bind:tap="goto_video_detail_page" bind:tap="goto_goods_detail" data-goods_detail_home="{{item}}">
+      <image class="iiimage" style="display:flex;border-radius:16rpx 16rpx 0 0;widthwidth:" src="{{ item.cover_url }}" mode="aspectFill"></image>
+    </view>
+     <view class="card-down" style="display:flex;flex-direction:column;background:#fff;width:332rpx;border-radius:0 0 16rpx 16rpx;padding:16rpx 10rpx;" bind:tap="goto_goods_detail" data-goods_detail_home="{{item}}">
+      <view class="card-down-upper" style="display:flex;flex-direction:column;overflow:hidden;flex:1 1 auto;">
+        <view class="t-title" style="font-size:28rpx;display:-webkit-box;overflow:hidden;-webkit-box-orient: vertical;-webkit-line-clamp: 2;">{{item.item_name}}</view>
+        <view class="goods-tags">
+          <view class="goods-tag" > 券 | ¥ {{item.extend[0]}}</view>
+          <view class="goods-tag" > 券 | ¥ {{item.extend[1]}}</view>
+<!--          <text class="tag" style="border:0rpx solid #bbbbbb;border-radius:10rpx;margin:10rpx 10rpx 0 0;padding:5rpx 10rpx;font-size:20rpx;color:#fa4126;background-color: #f5f5f5" wx:if="{{item.goods_info.priceInfo.historyPriceDay > 0}}">近{{item.goods_info.priceInfo.historyPriceDay}}天最低价</text>-->
+        </view>
+      </view>
+      <view class="card-down-down" style="display:flex;justify-content:space-between;align-items:baseline;font-size:22rpx;color:#bbbbbb;">
+        <view class="card-down-down" style="display:flex;justify-content:space-between;align-items:baseline;font-size:22rpx;color:#bbbbbb;">
+          <view style="font-size: 26rpx; color: #fa4126;">到手价¥ </view>
+          <view style="font-size: 36rpx; color: #fa4126;">{{item.goods_info.priceInfo.lowestCouponPrice}}</view>
+        </view>
+        <view>原价¥{{item.goods_info.priceInfo.price}}</view>
+        <view>推荐分 {{item.goods_info.commissionInfo.couponCommission}}</view>
+      </view>
+      </view>
+    </view>
+  </view>
+
+  <image class='ttgo-top' style=" height: 80rpx;width:80rpx;position:fixed;bottom:50px;background: rgba(0,0,0,.3);right: 30rpx;border-radius:50%;opacity: 0.8;"
+    src='../../images/up_top.png' hidden='{{!floorstatus}}' bindtap="go_top">
+  </image>
+</view>
+

@@ -1,0 +1,56 @@
+<!--pages/goods/details/index.wxml-->
+<!-- <text>pages/goods/details/index.wxml</text>
+
+  <view>{{goods_detail.data.goods_detail_response.request_id}}</view>
+</view> -->
+
+
+<view class="goods-detail-page">
+
+  <view class="goods-head">
+    <swiper class="swiper-wrap" indicator-dots="true" autoplay="true" interval="3000" circular="ture">
+      <block wx:for="{{goods_detail.goods_gallery_urls}}" wx:key="id">
+        <swiper-item>
+          <image class="swiper__image" src="{{item}}" mode="aspectFill"/>
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="goods-info">
+      <view class="goods-title">
+        <view class="goods-name">{{goods_detail.goods_name}}</view>
+      </view>
+      <view class="goods-number">
+        <view class="symbol">原价 ¥:</view>
+        <view class="goods-price">{{(goods_detail.min_group_price/100)}}</view>
+        <view class="goods-price-up">起</view>
+
+        <view class="symbol">券后</view>
+        <view class="goods-price">¥:{{((goods_detail.min_group_price - goods_detail.coupon_discount)/100)}}</view>
+
+        <view class="sold-num">已售{{goods_detail.sales_tip}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="desc-content">
+    <view class="desc-content__title">
+      <image class="image" mode="aspectFill" src="https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-mp/common/rec-left.png?imageMogr2/thumbnail/645x645/quality/70/strip/format/webp"/>
+      <view class="desc-content__title--text">详情介绍</view>
+      <image class="image" mode="aspectFill" src="https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-mp/common/rec-right.png?imageMogr2/thumbnail/645x645/quality/70/strip/format/webp"/>
+    </view>
+    <block wx:for="{{goods_detail.material_list}}" wx:key="id">
+      <view class="desc__text">{{item.text_list[0]}}</view>
+      <block wx:for="{{item.image_list}}" wx:for-index="id_image" wx:for-item="image_url">
+        <image class="desc__image" src="{{image_url}}" mode="widthFix"/>
+      </block>
+    </block>
+  </view>
+
+  <view class="goods-bottom-operation">
+    <!-- collect go to buy -->
+    <view class="bottom-operate__right">
+      <view bind:tap="collectGoods" class="bar-collect">收藏</view>
+      <view class="bar-buy" bind:tap="toBuyNow" data-goods_sign="{{goods_detail.goods_sign}}">领券购买</view>
+    </view>
+  </view>
+</view>

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
+import requests
 from flask import Flask, jsonify, request
 
 from backend.goods.data_get_jd_goods_info import func_get_goods_info_jd
@@ -11,6 +12,24 @@ pd.set_option('display.max_columns', None)  # 显示所有列
 
 app = Flask(__name__)
 
+
+@app.route("/user/get_wx_login_code", methods=["POST"])
+def get_wx_login_code():
+    # 获取用户登录code
+    # print(request)
+    req = request.get_json()
+    req['AppID'] = 'wx316d550728fad5d7'
+    req['AppSecret'] = '9226316899b2f5459c94c8e7b5a3e8b4'
+    print('get_wx_login_code============ ', req)
+    url_ = 'https://api.weixin.qq.com/sns/jscode2session?appid=' + \
+           req['AppID'] + '&secret=' + req['AppSecret'] + '&js_code=' + \
+           req['code'] + '&grant_type=authorization_code'
+    res = requests.post(json=req,
+                        url=url_,
+                        headers={'content-type': 'application/json'},
+                        timeout=30).json()
+    print('-后端返回的结果 用户', res)
+    return res
 
 @app.route('/goods/home/recommend', methods=['POST'])
 def predict_generate_image():
@@ -26,6 +45,7 @@ curl.exe -X POST 'http://127.0.0.1:8528/goods/home/recommend' -H 'Content-Type:a
         }
         res_return = func_main_goods_home_recommend(parm)
         res = {'res_data': res_return, 'num': len(res_return)}
+        print(res)
     except Exception as ex:
         res = ex
     return res
@@ -34,7 +54,7 @@ if __name__ == '__main__':
     """
     综合服务
     """
-    func_get_goods_info_jd()
+    # func_get_goods_info_jd()
     app.run(host='0.0.0.0', port=8528, debug=False)
 
 
