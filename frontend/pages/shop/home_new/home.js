@@ -12,7 +12,7 @@ Page({
       {'id':2, 'name':'精选卖场'},
       {'id':10, 'name':'9.9包邮'},
       {'id':22, 'name':'实时热销榜'},
-      {'id':25, 'name':'超市'},
+    //   {'id':25, 'name':'超市'},
       {'id':28, 'name':'美妆穿搭'},
       {'id':153, 'name':'历史最低价商品榜'}
     ],
@@ -74,17 +74,29 @@ Page({
   },
 
   func_get_item_list: function (cb){
+    // const url_pre = 'https://85910d51p2.zicp.fun'
+    const url_pre = getApp().globalData.apiUrl
+    console.log('99999-----+++++++++++++++')
+    console.log(this.data)
+    console.log('99999-----+++++++++++++++')
     wx.request({
-      url: 'http://127.0.0.1:8528/goods/home/recommend',
+      url: url_pre + 'goods/home/recommend',
       method:'POST',
       header :{'Content-Type': 'application/json'},
       data : {
-        'channel_id': 1,
-        'page_index': 1,
-        'page_size': 20
+        'channel': this.data.current_channel,
+        'page_index': this.data.page_index,
+        'page_size': this.data.page_size
       },
       success: res => {
         const item_list_batch = res.data.res_data
+        console.log("---------12345678900000000000", typeof(res.data), res.data)
+        if (item_list_batch.length in [null, 0]){
+            wx.showModal({
+                title: '提示',
+                content: '本频道已经没有内容，切换到其他频道看看'
+              })
+        }
         var t_l = []
         var t_r = []
         for (var i = 0; i < item_list_batch.length; i++) {
@@ -94,7 +106,6 @@ Page({
             t_r.push(item_list_batch[i]);
           }
         }
-        console.log("111111111111111111111",item_list_batch)
         this.setData({
           item_list_l: [...this.data.item_list_l, ...t_l],
           item_list_r: [...this.data.item_list_r, ...t_r]
@@ -125,17 +136,9 @@ Page({
   // 去商品详情页
   goto_goods_detail:function (params) {
     const item = params.currentTarget.dataset.goods_detail_home
-    if (item.platform == 'jd') {
-      wx.navigateTo({
-        url: '/pages/shop/goods/details-jd/index?goods_info=' + JSON.stringify({'skuId': item.goods_info.skuId})
-      })
-    }
-    if (item.platform == 'pdd') {
-      const goods_sign = item.goods_info.goods_id
-      wx.navigateTo({
-        url: '/pages/shop/goods/details-pdd/index?goods_sign=' + goods_sign,
-      })
-    }
+    wx.navigateTo({
+    url: '/pages/shop/goods/details-jd/index?goods_info=' + JSON.stringify({'skuId': item.item_id})
+    })
   },
 
     /**

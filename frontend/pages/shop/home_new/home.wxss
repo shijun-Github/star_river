@@ -29,7 +29,7 @@
 
 .topnav{
   position: fixed;
-  top: 0rpx;  /* 距离顶部还有多少时候产生吸顶效果 */
+  top: 180rpx;  /* 距离顶部还有多少时候产生吸顶效果 */
   z-index:1;
   background: #fff;
   width: 100%;
@@ -182,8 +182,8 @@ goods-card-upper-video{
 
 .goods-tags {
   display: flex;
-  /*flex-direction: row;*/
-  /*flex-wrap: wrap;*/
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content:space-between;
   align-items:baseline;
   margin: 8rpx 0 0 0;
@@ -216,6 +216,69 @@ goods-card-upper-video{
   font-size: 18rpx;
   color: #bbbbbb;
   /* margin: 8rpx 0 0 0; */
+}
+
+
+
+
+
+/*++++++++++++++++  新的样式 +++++++++++++++++++++++++++++*/
+.body-{
+  display:flex;
+  flex-direction: row;
+  /* background-color:#faea11; */
+  background-color:#f5f5f5
+}
+
+.item-list-{
+    display: flex;
+    flex-direction:column;
+    width: 354rpx;
+    margin:0 10rpx;   /*一个值：四周，两个值：上下左右， 四个值：上右下左*/
+}
+
+.card-{
+    display:flex;
+    flex-direction:column;
+    widows: 100%;
+    margin:10rpx 0;   /*一个值：四周，两个值：上下左右， 四个值：上右下左*/
+    border-radius:16rpx;
+    /* background-color: aqua */
+    background:#fff;
+}
+
+.card-upper{
+    display:flex;
+    /* background-color: #fa4126; */
+}
+
+.card-down{
+    display:flex;
+    flex-direction:column;
+}
+
+.title{
+    font-size:28rpx;
+    margin: 0 10rpx;
+    display:-webkit-box;
+    overflow:hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;  /* 显示两行 */
+}
+
+.card-tags{
+    display: flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+    margin: 10rpx 0;
+}
+
+.card-tag{
+    font-size: 20rpx; 
+    margin: 5rpx 5rpx;
+    padding: 4rpx 8rpx;
+    border-radius: 8rpx;
+    background-color:#eee5e5
 }
 
 /* 返回顶部 */

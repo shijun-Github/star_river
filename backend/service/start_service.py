@@ -2,6 +2,7 @@
 import pandas as pd
 import requests
 from flask import Flask, jsonify, request
+from apscheduler.schedulers.background import BackgroundScheduler
 
 from backend.goods.data_get_jd_goods_info import func_get_goods_info_jd
 from backend.goods.rank_goods_home_recommend import func_main_goods_home_recommend
@@ -41,21 +42,33 @@ curl.exe -X POST 'http://127.0.0.1:8528/goods/home/recommend' -H 'Content-Type:a
         print(input_parameter)
         parm = {
             'page_index': input_parameter['page_index'],
-            'page_size': input_parameter['page_size']
+            'page_size': input_parameter['page_size'],
+            'channel': int(input_parameter['channel'])
         }
         res_return = func_main_goods_home_recommend(parm)
         res = {'res_data': res_return, 'num': len(res_return)}
-        print(res)
     except Exception as ex:
         res = ex
     return res
+
+
+def start_scheduler():
+    """
+    定时刷新数据
+    :return:
+    """
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(func_get_goods_info_jd, 'interval', seconds=60*60*12)
+    scheduler.start()
+
 
 if __name__ == '__main__':
     """
     综合服务
     """
     # func_get_goods_info_jd()
-    app.run(host='0.0.0.0', port=8528, debug=False)
+
+    app.run(host='0.0.0.0', port=3337, debug=False)
 
 
 

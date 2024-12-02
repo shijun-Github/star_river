@@ -19,7 +19,7 @@ pd.set_option('display.max_columns', None)  # 显示所有列
 def func_main_goods_home_recommend(parm_in):
     path_data = os.getcwd().split('backend')[0] + 'backend\goods\data\jd_goods_info.csv'
     goods_info = pd.read_csv(path_data)
-    df_deal = goods_info
+    df_deal = goods_info[goods_info['channel'] == parm_in['channel']]
     df_deal_page = df_deal[(parm_in['page_index'] - 1) * parm_in['page_size']: parm_in['page_index'] * parm_in['page_size']]
     # df_deal_page_dict = df_deal_page.to_dict(orient='records')
     # print(df_deal_page_dict)
@@ -33,6 +33,7 @@ def func_main_goods_home_recommend(parm_in):
             'cover_url': row['cover_url'],
             'extend': json.loads(row['extend'])
         })
+    print('哈哈哈哈哈哈哈哈哈： ', len(res) ,res)
     return res
 
 
@@ -43,6 +44,7 @@ if __name__ == '__main__':
     parm = {
         'page_index': 1,
         'page_size': 10,
-        'channel': 1
+        'channel': 25
     }
-    func_main_goods_home_recommend(parm)
+    t = func_main_goods_home_recommend(parm)
+    pprint(t)

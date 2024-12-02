@@ -1,6 +1,7 @@
 App({
   globalData: {
     userInfo: {openid:null},
+    apiUrl : 'https://85910d51p2.zicp.fun/'     /*   'http://127.0.0.1:8528/' //请求域名  */
   },
   onLaunch: function () {
     // 展示本地存储能力
@@ -33,13 +34,12 @@ App({
   },
 
   http: function (url, data='', method="POST") { //封装http请求
-    const apiUrl = 'http://127.0.0.1:8528/' //请求域名
     const currency = {
       openid: this.globalData.openid
     }
     return new Promise((resolve, reject) => {
       wx.request({
-        url: apiUrl + url,
+        url: this.globalData.apiUrl + url,
         data: Object.assign(currency,data),
         method: method,
         success: function (res) {
