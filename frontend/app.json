@@ -1,17 +1,13 @@
 {
   "pages": [
-    "pages/shop/home_new/home",
-
+    "pages/entertainment/details_single/index",
+    "pages/entertainment/home/home",
+    
     "pages/shop/home/home",
     "pages/shop/goods/details-jd/index",
     "pages/shop/goods/details-pdd/index",
     "pages/shop/goods/search/index",
-    
-    "pages/entertainment/home/home",
-    "pages/entertainment/details_single/index",
-    
     "pages/finance/home/home",
-
     "pages/usercenter/index"
   ],
   "lazyCodeLoading": "requiredComponents",
@@ -21,7 +17,7 @@
     "borderStyle": "black",
     "list": [
       {
-        "pagePath": "pages/shop/home_new/home",
+        "pagePath": "pages/shop/home/home",
         "text": "购物"
       },
       {

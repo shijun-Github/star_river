@@ -1,5 +1,7 @@
 import pymysql
+
 import pandas as pd
+from sqlalchemy import create_engine
 
 
 def func_get_data_from_mysql(sql_input):
@@ -64,5 +66,19 @@ def func_insert_data_into_mysql_table(sql_input):
         cursor = conn.cursor()
         cursor.execute(sql_input)
         conn.commit()
+
+
+def func_insert_data_into_mysql_table_df_tosql(data_df, database, table_name, if_exists='append'):
+    """
+    将数据插入表格中
+    dataframe.to_sql()
+    """
+    mysql_engine_str = "mysql+mysqldb://{}:{}@{}:{}/{}".format(
+        'root', '2019_shjw', 'localhost', 3306, database)
+    # ‘mysql+pymysql://root:123456@127.0.0.1:3306/data
+    engine = create_engine(mysql_engine_str)
+    with engine.connect() as engine_con:
+        data_df.to_sql(name=table_name, con=engine_con, if_exists=if_exists, index=False)
+
 
 

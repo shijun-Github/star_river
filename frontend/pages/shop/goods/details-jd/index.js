@@ -38,6 +38,7 @@ Page({
       header :{'Content-Type': 'application/json'},
       data : data_params,
       success: res => {
+        console.log('1111111111111111111', data_params, res.data),  
         this.setData({
           goods_detail: res.data.data[0],
         })

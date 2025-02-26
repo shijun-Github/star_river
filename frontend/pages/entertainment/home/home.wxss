@@ -1,80 +1,12 @@
 /* pages/home/home.wxss */
-/* 首页头部 */
-.page-head{
-  /* display: block; */
-  background: #f5f5f5;
-}
 
-.tab-list{
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
-  padding: 0;
-}
-
-.tab-card{
-  position: relative;
-  display: flex;
-  line-height: 1;
-  padding: 0;
-  background: transparent;
-  width: 20%;
-  border-radius: 0rpx;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 14rpx;
-  flex-direction: column;
-  background: #fff;
-}
-
+/*++++++++++++++++  功能函数 +++++++++++++++++++++++++++++*/
 .topnav{
   position: fixed;
-  top: 0rpx;  /* 距离顶部还有多少时候产生吸顶效果 */
+  top: 180rpx;  /* 距离顶部还有多少时候产生吸顶效果 */
   z-index:1;
   background: #fff;
   width: 100%;
-}
-
-
-.goods-channel{
-  display: flex;
-  flex-direction: row;
-  white-space: nowrap;   /* 设置 不换行 */
-  align-items: center;
-  justify-content: center;
-  /* 此后三行为固定导航栏 */
-  /* position:fixed;   */
-  /* top:0rpx; */
-  /* z-index:999; */
-  height: 80rpx;  
-  width: 100%;
-  color:  #bbb;
-  background: #fff;
-}
-
-.channel-item{
-  display: inline-block;
-  margin: 10rpx 12rpx;
-  padding: 0rpx 20rpx;
-  background-color: #f5f5f5;
-  border-radius: 10rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  font-size: 28rpx;
-}
-.channel-button{
-
-  display: inline-block;
-  position:fixed; 
-  left:0rpx;
-  margin: 10rpx 10rpx;
-  padding: 0rpx 25rpx;
-  height: 58rpx;
-  line-height: 58rpx;
-  font-size: 28rpx;
-  background-color: #fff;
-  border-radius: 10rpx;
-  border: 1rpx solid #fa4126;
 }
 
 .channel-active {
@@ -87,133 +19,63 @@
   border-bottom: 1rpx solid #333333; /* #d43c33; */
 }
 
-
-/* 首页下部区域结构 */
-.page-body{
-  /* margin-top: 80rpx; */
-  display: flex;
-  background: #f5f5f5;
-  padding: 6rpx 14rpx;
-}
-
-.goods-list{
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-}
-
-.goods-card{
-  /* position: relative; */
-  display: flex;
-  /* line-height: 1; */
-  padding: 0;
-  background: transparent;
-  width: 354rpx;
-  /* border-radius: 0 0 16rpx 16rpx; */
-  border-radius: 16rpx;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 14rpx;
-  flex-direction: column;
-  background: #fff;
-}
-
-.goods-card-upper{
-  display:flex; /* 显示 样式 固定 */
-  justify-content: center;  /* 内容 左右居中 */
-  align-items: center; /* 内容 上下居中 */
-  width: 100%;
-  height: 100%;
-}
-
-goods-card-upper-video{
-  width: 100%;
-}
-
-.goods-card-upper.image{
-  width: 100%;
-  /* height: 100%; */
-  border-radius: 16rpx 16rpx 0rpx 0rpx;
-}
-
-.goods-card-down{
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  width: 332rpx;
-  border-radius: 0 0 16rpx 16rpx;
-  padding: 16rpx 10rpx;
-}
-
-.goods-card-down-upper{
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  flex: 1 1 auto;
-}
-
-.goods-title {
-  flex-shrink: 0;
-  font-size: 28rpx;
-  color: #333;
-  font-weight: 400;
-  display: -webkit-box;
-  height: 72rpx;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  word-break: break-word;
-  line-height: 36rpx;
-}
-
-.goods-mall{
-  text-align: left;
-  color: #fa4126;
-  font-size: 18rpx;
-  line-height: 30rpx;
-  padding: 0 8rpx;
-  /* margin: 8rpx 8rpx 8rpx 8rpx; */
-  font-weight: 600;
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1; 
-}
-
-.goods-tags {
-  display: flex;
+/*++++++++++++++++  内容样式 +++++++++++++++++++++++++++++*/
+.body-{
+  display:flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  margin: 8rpx 0 0 0;
+  /* background-color:#faea11; */
+  background-color:#f5f5f5
 }
 
-.goods-tag {
-  color: #bbbbbb;
-  background: transparent;
-  font-size: 20rpx;
-  border: 1rpx solid #bbbbbb;
-  padding: 0 8rpx;
-  border-radius: 10rpx;
-  line-height: 30rpx;
-  margin: 0 8rpx 8rpx 0;
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  word-break: keep-all;
-  text-overflow: ellipsis;
+.item-list-{
+    display: flex;
+    flex-direction:column;
+    width: 354rpx;
+    margin:0 10rpx;   /*一个值：四周，两个值：上下左右， 四个值：上右下左*/
 }
 
-.goods-card-down-down{
-  display: flex;
-  /* position: relative; */
-  /* flex-direction: row; */
-  /* justify-content: flex-start; */
-  justify-content:space-between;
-  align-items: baseline;
-  /* line-height: 32rpx; */
-  font-size: 18rpx;
-  color: #bbbbbb;
-  /* margin: 8rpx 0 0 0; */
+.card-{
+    display:flex;
+    flex-direction:column;
+    widows: 100%;
+    margin:10rpx 0;   /*一个值：四周，两个值：上下左右， 四个值：上右下左*/
+    border-radius:16rpx;
+    /* background-color: aqua */
+    background:#fff;
+}
+
+.card-upper{
+    display:flex;
+    /* background-color: #fa4126; */
+}
+
+.card-down{
+    display:flex;
+    flex-direction:column;
+}
+
+.title{
+    font-size:28rpx;
+    margin: 0 10rpx;
+    display:-webkit-box;
+    overflow:hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;  /* 显示两行 */
+}
+
+.card-tags{
+    display: flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+    margin: 10rpx 0;
+}
+
+.card-tag{
+    font-size: 20rpx;
+    margin: 5rpx 5rpx;
+    padding: 4rpx 8rpx;
+    border-radius: 8rpx;
+    background-color:#eee5e5
 }
 
 /* 返回顶部 */

@@ -1,17 +1,63 @@
-<view class="body" style="display:flex;background:#f5f5f5;padding:6rpx 14rpx;">
-  <view class="glist" style="display:flex;flex-flow:row wrap;justify-content:space-between;">
-    <view class="card" style="display:flex;width:354rpx;border-radius:16rpx;align-items:center;justify-content:center;margin-bottom:14rpx;flex-direction:column;background:#fff;"  wx:for="{{ video_list }}" wx:key="index">
-      <view class="card-upper" style="display:flex;justify-content:center;align-items:center;width:100%;height:100%;" bind:tap="goto_video_detail_page" data-video_detail_home="{{item}}">
-        <image style="display:flex;border-radius:16rpx 16rpx 0 0;" mode="aspectFill" referrerPolicy="no-referrer" src="{{item.goods_info.videoInfo.videoList[0].imageUrl}}"></image>
-      </view>
-      <view class="card-down" style="display:flex;flex-direction:column;background: #fff;width:332rpx;border-radius:0 0 16rpx 16rpx;padding:16rpx 10rpx;" bind:tap="goto_video_detail_page" data-video_detail_home="{{item}}">
-        <view class="title" style="font-size:28rpx;display:-webkit-box;overflow:hidden;-webkit-box-orient: vertical;-webkit-line-clamp: 2;">{{item.goods_info.skuName}}</view>
-      </view>
-    </view>
+<!-- 搜索顶部-->
+<view  style="height:{{navHeight}}px;background:#ffffff;position: sticky;top: 0px;z-index:99999; " >
+  <view class="t-custom-bar__wrapper" style="display:flex;justify-content:center;align-items: center;left:24rpx;padding: 0 10rpx;margin-top:{{searchMarginTop}}px; height: {{searchHeight}}px;width: {{searchWidth}}px;position:absolute;">
+    <view class="t-search-group" bind:tap="goto_search_page" style="position:absolute;width:100%;height:100%;display: flex;justify-content: flex-start;align-items: center;background:#F0F8FF ;border-radius: 100rpx;padding: 0 15rpx;">{{'🔍 搜索商品~'}}</view>
   </view>
+</view>
 
-  <image class='ttgo-top' style=" height: 80rpx;width:80rpx;position:fixed;bottom:50px;background: rgba(0,0,0,.3);right: 30rpx;border-radius:50%;opacity: 0.8;" 
-    src='../../images/up_top.png' hidden='{{!floorstatus}}' bindtap="go_top"></image>
+<!-- 头部 -->
+<view class="head" style="background: #f5f5f5;">
+  <view class="outer {{scrollTop > 300 ? 'topnav' : ''}}">
+    <scroll-view class="t-channel"
+      style="display:flex;flex-direction:row;white-space:nowrap;align-items:left;justify-content:left;height:80rpx;width:100%;background:#fff"
+      enable-flex scroll-x="{{true}}">
+      <view class="{{current_channel===item.id?'channel-active':''}}"
+        style="margin:10rpx 20rpx;padding:0rpx 0rpx;height:60rpx;line-height:60rpx;font-size:28rpx;font-weight:600;"
+        wx:for="{{channel_list}}" wx:key="index" bind:tap="select_channel" data-id="{{item.id}}">{{item.name}}</view>
+    </scroll-view>
+  </view>
+</view>
 
+<!-- 内容列表 -->
+<view class="body-">
+    <!-- 左列-->
+    <view class="item-list-">
+        <view class="card-" wx:for="{{item_list_l}}" wx:for-index="idx" wx:for-item="card" wx:key="idx" bind:tap="goto_goods_detail" data-goods_detail_home="{{card}}" >
+            <view class="card-upper">
+                <image src="{{card.cover_url}}" mode="widthFix"></image>
+                <!-- <video loop="{{true}}" autoplay="{{true}}" object-fit="cover" src="{{card.video_url}}"></video> -->
+            </view>
+            <view class="card-down">
+                <view class="title">{{card.name}}</view>
+                    <view class="card-tags">
+                        <view  wx:for="{{ card.extend }}" wx:for-index="idx1" wx:for-item="tag" wx:key="idx1">
+                            <view class="card-tag">{{tag}}</view>
+                        </view>
+                    </view>
+            </view>
+        </view>
+    </view>
+
+    <!-- 右列 -->
+    <view class="item-list-">
+        <view class="card-" wx:for="{{item_list_r}}" wx:for-index="idx" wx:for-item="card" wx:key="idx" bind:tap="goto_goods_detail" data-goods_detail_home="{{card}}" >
+            <view class="card-upper">
+                <image src="{{card.cover_url}}" mode="widthFix"></image>
+                <!-- <video loop="{{true}}" autoplay="{{true}}" object-fit="cover" src="{{card.video_url}}"></video> -->
+            </view>
+            <view class="card-down">
+                <view class="title">{{card.name}}</view>
+                    <view class="card-tags">
+                        <view  wx:for="{{ card.extend }}" wx:for-index="idx1" wx:for-item="tag" wx:key="idx1">
+                            <view class="card-tag">{{tag}}</view>
+                        </view>
+                    </view>
+            </view>
+        </view>
+    </view>
+
+  <image class='ttgo-top' style=" height: 80rpx;width:80rpx;position:fixed;bottom:50px;background: rgba(0,0,0,.3);right: 30rpx;border-radius:50%;opacity: 0.8;"
+    src='../../images/up_top.png' hidden='{{!floorstatus}}' bindtap="go_top">
+  </image>
 </view>
 

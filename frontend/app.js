@@ -1,15 +1,17 @@
 App({
   globalData: {
     userInfo: {openid:null},
-    apiUrl : 'https://85910d51p2.zicp.fun/'     /*   'http://127.0.0.1:8528/' //请求域名  */
+     /*   'http://127.0.0.1:8588/'   这种本地地址写法，是无法进行真机调试的
+    https://85910d51p2.zicp.fun/  //请求域名  */   
+    apiUrl : 'http://10.1.30.237:8588/'    
   },
   onLaunch: function () {
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || [];
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-    // 登录
-    this.get_user_info_self()
+    // 登录， 暂时先不开发
+    // this.get_user_info_self()
   },
 
   get_user_info_self: function (argument) {
@@ -27,7 +29,7 @@ App({
           }
         })
       } else {
-            console.log('get_----user_info_self+++++++', res)
+            console.log('get_----user_info_self+++++++')
       }
       resolve()
     })

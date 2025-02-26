@@ -6,10 +6,11 @@ Page({
    */
   data: {
     q_videos: [], //视频
-    q_videoIndex: 0, //视频index
-    q_yjz: false, //是否允许预加载
-    page_index:20,
-    page_size:3,
+    q_videoIndex: 0, //视频index   0,1
+    q_yjz: true, //是否允许预加载  false, true
+    page_index:1,
+    page_size:8,
+    video_type:[0, 3, 10]  // '短剧类型：0-短剧 2-合集 3-影视剧 10-电影',
   },
 
   /**
@@ -18,13 +19,9 @@ Page({
   onLoad: function (options) {
     // 隐藏
     wx.hideLoading()
-    const from_home_item = [{
-      "title": options.title,
-      "url": options.url
-    }]
-    
+    const url_pre = getApp().globalData.apiUrl
     wx.request({
-      url: 'https://85910d51p2.zicp.fun/entertainment/haokan_video',  
+      url: url_pre + 'video/recommend',
       // url: 'https://8f5910u512.vicp.fun/entertainment/haokan_video',  
       method:'POST',
       header :{'content-type': 'application/json'},
@@ -32,11 +29,14 @@ Page({
         "user_id": "dkafa12e2j", 
         "page_index": this.data.page_index, 
         "page_size": this.data.page_size, 
-        "sort_type": 0
+        "video_type": this.data.video_type
       },
       success: res => {
-        const vdieo_list_deal = res.data.res
-        var array = this.data.q_videos.concat(from_home_item).concat(vdieo_list_deal) //concat() 方法：用于连接两个或多个数组,并返回一个新数组
+        console.log("33333333333333333333333333", typeof(res), res)
+        const vdieo_list_deal = res.data.res.data
+        console.log("33333333333333333333333333", typeof(vdieo_list_deal), vdieo_list_deal)
+        // var array = this.data.q_videos.concat(from_home_item).concat(vdieo_list_deal) //concat() 方法：用于连接两个或多个数组,并返回一个新数组
+        var array = vdieo_list_deal
         this.setData({
           q_videos: array, //视频
           q_yjz: vdieo_list_deal.length < 3 ? false : true, //是否允许预加载
@@ -45,58 +45,11 @@ Page({
     })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
 
   //动态更新当前视频下标
   q_swiperBindchange: function (e) {
     console.log('当前视频下标：', e.detail.current)
+    console.log('当前：', e.detail)
     this.setData({
       q_videoIndex: e.detail.current
     })
@@ -109,24 +62,11 @@ Page({
   //预加载视频
   q_yjzVideos: function () {
     console.log('预加载视频')
-    // var videoList = [{
-    //   id: '4',
-    //   url: "http://sns-1255549670.cos.ap-guangzhou.myqcloud.com/tmp_b0855d9c92f6ce4cd91796e8b1ca39a78bca4d48f524bb06.mp4?0.27723747875520743",
-    // }, {
-    //   id: '5',
-    //   url: "http://sns-1255549670.cos.ap-guangzhou.myqcloud.com/wx982ed8d3473ced2c.o6zAJs8Oghy9CSGBPJEdSoJABPEU.SZVa80OoOknW8750107432d93943f9ce930651ad5ffa.mp4?0.27723747875520743",
-    // }]
-    // console.log("videoList=========", videoList)
-    // var array = this.data.q_videos.concat(videoList) //concat() 方法：用于连接两个或多个数组,并返回一个新数组
-    // console.log("array=========", array)
-    // this.setData({
-    //   q_videos: array, //视频
-    //   q_yjz: videoList.length < 3 ? false : true, //是否允许预加载
-    // })
     // 页码自增
     this.data.page_index += 1
+    const url_pre = getApp().globalData.apiUrl
     wx.request({
-      url: 'https://85910d51p2.zicp.fun/entertainment/haokan_video',  
+      url: url_pre + 'video/recommend',
       // url: 'https://8f5910u512.vicp.fun/entertainment/haokan_video',  
       method:'POST',
       header :{'content-type': 'application/json'},
@@ -134,10 +74,10 @@ Page({
         "user_id": "dkafa12e2j", 
         "page_index": this.data.page_index, 
         "page_size": this.data.page_size, 
-        "sort_type": 0
+        "video_type": this.data.video_type
       },
       success: res => {
-        const vdieo_list_deal = res.data.res
+        const vdieo_list_deal = res.data.res.data
         var array = this.data.q_videos.concat(vdieo_list_deal) //concat() 方法：用于连接两个或多个数组,并返回一个新数组
         console.log("array======", array)
         this.setData({

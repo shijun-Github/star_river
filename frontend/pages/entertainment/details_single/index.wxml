@@ -5,14 +5,12 @@
             <view class="q_videoView">
                 <!-- wx:if="{{index==q_videoIndex}}" 用于控制只播放当前视频，否则多个视频会同时播放没刷到的也会播放 -->
                 <video wx:if="{{index==q_videoIndex}}" 
-                    src="{{item.url}}" 
+                    src="{{item.video_url}}" 
                     autoplay="{{true}}" 
                     loop="{{true}}" 
-                    show-fullscreen-btn="{{false}}" 
-                    play-btn-position="center" 
                     play-btn-position="bottom"
-                    enable-auto-rotation="{{true}}"
-                    enable-play-gesture="{{true}}"></video>
+                    ></video>
+                <view class="video-name">{{item.name}}</view>
             </view>
         </swiper-item>
     </block>

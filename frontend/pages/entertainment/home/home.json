@@ -1,10 +1,6 @@
 {
-  "navigationStyle": "default",
-  "navigationBarTitleText": "娱乐",
-  "navigationBarBackgroundColor": "#fff",
-  "navigationBarTextStyle": "black",
+  "usingComponents":{},
+  "navigationStyle": "custom",
   "onReachBottomDistance": 350,
-  "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark",
-  "backgroundColor":"#bfa"
+  "enablePullDownRefresh": true
 }
