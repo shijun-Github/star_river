@@ -1,8 +1,10 @@
 {
   "pages": [
-    "pages/entertainment/details_single/index",
     "pages/entertainment/home/home",
-    
+    "pages/entertainment/details_single/index",
+    "pages/entertainment/recommend/index",
+    "pages/entertainment/search/index",
+
     "pages/shop/home/home",
     "pages/shop/goods/details-jd/index",
     "pages/shop/goods/details-pdd/index",
@@ -23,10 +25,6 @@
       {
         "pagePath": "pages/entertainment/home/home",
         "text": "视频"
-      },
-      {
-        "pagePath": "pages/finance/home/home",
-        "text": "理财"
       },
       {
         "pagePath": "pages/usercenter/index",

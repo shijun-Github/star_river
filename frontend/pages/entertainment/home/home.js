@@ -3,21 +3,22 @@ import produce_sign from '../utils/produce_sign'
 
 Page({
   /**
-   * 页面的初始数据
+   * 页面的初始数据   短剧类型：0-短剧 2-合集 3-影视剧 10-电影
    */
   data: {
-    item_list_l:[],
-    item_list_r:[],
+    item_list:[],
     channel_list:[
-      {'id':1, 'name':'推荐'},
-      {'id':2, 'name':'剧场'},
-      {'id':3, 'name':'看过'},
+      {'id':999, 'name':'推荐'},
+      {'id':0, 'name':'短剧'},
+      {'id':10, 'name':'电影'},
+      {'id':3, 'name':'影视剧'},
     ],
-    current_channel: 1,
-    page_index:1,
-    page_size:10,
-    scroll_top: 0, //滚动条高度
+    current_channel: 999,
+    video_type: [0, 3, 10],
+    page_index:0,
+    page_size:12,
 
+    scroll_top: 0, //滚动条高度
     // 定义顶部栏-
     page_show:false,
     navHeight: '',
@@ -31,18 +32,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      item_list_l:[],
-      item_list_r:[],
-      page_index:1
-    })
     this.func_get_item_list()  // 获取列表
-
-    // getApp().get_user_info_self().then(() => {   // 执行完异步任务1和异步任务2后的逻辑
-    //   const t = getApp().globalData
-    //   console.log('00000000000000000000000000000', t.user_info)
-    //   this.func_get_item_list()  // 获取列表
-    //   })
 
     // 自定义首页顶部
     var systeminfo=wx.getSystemInfoSync()
@@ -70,63 +60,65 @@ Page({
     })
   },
 
+  // 去物品详情页
+  func_goto_item_details_page:function (params) {
+    const item_info = params.currentTarget.dataset.item_detail_home
+    const item_info_str =  JSON.stringify({'drama_id': item_info.drama_id})
+    wx.navigateTo({
+      // url: '/pages/entertainment/index?item_id='+item,
+      url: '/pages/entertainment/details_single/index?item_info='+item_info_str,
+    })
+  },
+  // func_goto_goods_detail:function (params) {
+  //     const item = params.currentTarget.dataset.goods_detail_home
+  //     wx.navigateTo({
+  //       url: '/pages/entertainment/details_single/details-jd/index?goods_info=' + JSON.stringify({'skuId': item.item_id})
+  //     })
+  //   },
+
   func_get_item_list: function (cb){
     const url_pre = getApp().globalData.apiUrl
-    console.log('99999-----+++++++++++++++', url_pre, url_pre + 'video/home/recommend')
     wx.request({
       url: url_pre + 'video/drama/square',
       method:'POST',
       header :{'Content-Type': 'application/json'},
       data : {
         'page_index': this.data.page_index,
-        'page_size': this.data.page_size
+        'page_size': this.data.page_size,
+        'video_type':this.data.video_type
       },
       success: res => {
         const item_list_batch = res.data.res.data
-        console.log("33333333333333333333333333", typeof(item_list_batch), item_list_batch)
+        console.log("+++++++++++++++++++++item_list_batch++++++++++++++", typeof(item_list_batch), item_list_batch, this.data.current_channel)
         if (item_list_batch.length in [null, 0]){
             wx.showModal({
                 title: '提示',
                 content: '本频道已经没有内容，切换到其他频道看看'
               })
         }
-        var t_l = []
-        var t_r = []
-        for (var i = 0; i < item_list_batch.length; i++) {
-          if (i % 2 === 0) {
-            t_l.push(item_list_batch[i]);
-          } else {
-            t_r.push(item_list_batch[i]);
-          }
-        }
-        this.setData({
-          item_list_l: [...this.data.item_list_l, ...t_l],
-          item_list_r: [...this.data.item_list_r, ...t_r]
-        })
+        this.setData({item_list: [...this.data.item_list, ...item_list_batch]})
       }
     })
   },
 
   // 去搜索页
-  goto_search_page(e) {
-    wx.navigateTo({
-      url: '/pages/shop/goods/search/index',
-    })
+  func_goto_search_page(e) {
+    wx.navigateTo({url: '/pages/entertainment/search/index'})
   },
 
-  // 用户点击某个channel
+  // 用户点击某个channel，  切换选项卡，需要重置的数据
   select_channel:function(e){
-    // 切换选项卡，需要重置的数据
     this.setData({
-      item_list_l:[],
-      item_list_r:[],
+      item_list:[],
       current_channel: e.target.dataset.id,
-      page_index:1,
+      page_index:0,
+      video_type: e.target.dataset.id === 999? [0, 3, 10] : [e.target.dataset.id]
+
     })
     this.func_get_item_list() // 重新发起数据请求
   },
 
-  // 去商品详情页
+  // 去物品详情页
   goto_goods_detail:function (params) {
     const item = params.currentTarget.dataset.goods_detail_home
     wx.navigateTo({
@@ -134,48 +126,16 @@ Page({
     })
   },
 
-    /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
   /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
+   * 页面相关事件处理函数--监听用户下拉动作, // 下拉刷新，需要重置的数据
    */
   onPullDownRefresh() {
-    // 下拉刷新，需要重置的数据
     this.setData({
-      item_list_l:[],
-      item_list_r:[],
+      item_list:[],
       page_index: 1
     })
-    // 重新发起数据请求
+    // 重新发起数据请求 ,当 1 完成后，执行 2
     this.func_get_item_list().then(() => {
-      // 当 1 完成后，执行 2
       wx.stopPullDownRefresh()
     })
   },
@@ -184,19 +144,9 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-    // 页码自增
-    this.data.page_index += 1
-    // 请求下一页数据
-    this.func_get_item_list()
+    this.data.page_index += 1  // 页码自增
+    this.func_get_item_list()  // 请求下一页数据
   },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  },
-
 
   // 获取滚动条当前位置
   onPageScroll: function (e) {

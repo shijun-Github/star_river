@@ -12,11 +12,12 @@
 .channel-active {
   /* background-color:burlywood; */
   border-radius: 10rpx;
-  padding: 0rpx 10rpx;
+  /*padding: 0 10rpx;*/
   font-weight: 600;
   font-size: 32rpx;
+  transform: scale(1.1); /* 整体放大 1.3 倍，可按需调整 */
   color: #333333;
-  border-bottom: 1rpx solid #333333; /* #d43c33; */
+  border-bottom: 2rpx solid #333333; /* #d43c33; */
 }
 
 /*++++++++++++++++  内容样式 +++++++++++++++++++++++++++++*/
@@ -29,14 +30,18 @@
 
 .item-list-{
     display: flex;
-    flex-direction:column;
-    width: 354rpx;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    /* display: flex; */
+    /* flex-direction:row; */
+    /* width: 354rpx; */
     margin:0 10rpx;   /*一个值：四周，两个值：上下左右， 四个值：上右下左*/
 }
 
 .card-{
     display:flex;
     flex-direction:column;
+    width: 354rpx;
     widows: 100%;
     margin:10rpx 0;   /*一个值：四周，两个值：上下左右， 四个值：上右下左*/
     border-radius:16rpx;
@@ -46,6 +51,7 @@
 
 .card-upper{
     display:flex;
+    position: relative;
     /* background-color: #fa4126; */
 }
 

@@ -3,7 +3,10 @@ App({
     userInfo: {openid:null},
      /*   'http://127.0.0.1:8588/'   这种本地地址写法，是无法进行真机调试的
     https://85910d51p2.zicp.fun/  //请求域名  */   
-    apiUrl : 'http://10.1.30.237:8588/'    
+    apiUrl: 'http://127.0.0.1:8588/'
+    // apiUrl: 'http://10.1.30.237:8588/'
+    // apiUrl: 'http://192.168.0.111:8588/
+    // apiUrl: 'http://192.168.1.15:8588/'
   },
   onLaunch: function () {
     // 展示本地存储能力
