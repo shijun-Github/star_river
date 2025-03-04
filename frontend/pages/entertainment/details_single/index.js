@@ -13,6 +13,7 @@ Page({
     video_type:[0, 3, 10],  // '短剧类型：0-短剧 2-合集 3-影视剧 10-电影',
     showEpisodePanel: false,  // 新增：控制选集面板显示
     swiperCurrent: 0,  // 新增：Swiper 当前项
+    videoLoading: false, // 新增：控制视频加载提示显示
   },
 
   /**
@@ -37,7 +38,7 @@ Page({
         "item_info": item_info
       },
       success: res => {
-        const vdieo_list_deal = res.data.res.data
+        const vdieo_list_deal = res.data.res.data   // 内容中不要有空值，哪怕是在不用的key里面，容易报错
         console.log("detail_single  33333333333333333333333333", typeof(vdieo_list_deal), vdieo_list_deal)
         var array = this.data.q_videos.concat(vdieo_list_deal) //concat() 方法：用于连接两个或多个数组,并返回一个新数组 .concat(item_list_demo)
         console.log("detail_single  4444444444444444444444444", typeof(array), array)
@@ -46,6 +47,18 @@ Page({
         })
       }
     })
+  },
+
+ // 视频加载事件监听
+  onVideoLoadstart: function () {
+    this.setData({
+      videoLoading: true
+    });
+  },
+  onVideoLoadedmetadata: function () {
+    this.setData({
+      videoLoading: false
+    });
   },
 
   //动态更新当前视频下标

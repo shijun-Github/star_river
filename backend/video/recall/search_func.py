@@ -83,14 +83,16 @@ if __name__ == '__main__':
     # #     item['desc'] = item['drama_desc']
     # # pprint(t)
 
-    req = {
-        'page_index': 1,
-        'page_size': 10,
-        'keyword': '甄嬛传'
-    }
-    data_info = pd.read_csv(os.path.abspath(__file__).split('recall')[0] + 'data/drama_info.csv')
-    data_page = func_search_drama_by_keyword(req, data_info)
-    print(data_page)
+
+    # ##################################################
+    # req = {
+    #     'page_index': 1,
+    #     'page_size': 10,
+    #     'keyword': '甄嬛传'
+    # }
+    # data_info = pd.read_csv(os.path.abspath(__file__).split('recall')[0] + 'data/drama_info.csv')
+    # data_page = func_search_drama_by_keyword(req, data_info)
+    # print(data_page)
 
 
 
