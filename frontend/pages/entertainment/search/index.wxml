@@ -1,0 +1,51 @@
+<!-- 搜索顶部-->
+<view  style="height:{{navHeight}}px;background:#ffffff;position: sticky;top: 0px;z-index:99999; " >
+  <view class="t-custom-bar__wrapper" style="display:flex;justify-content:center;align-items: center;left:24rpx;padding: 0 10rpx;margin-top:{{searchMarginTop}}px; height: {{searchHeight}}px;width: {{searchWidth}}px;position:absolute;">
+    <!-- <view class="t-search-group" bind:tap="func_goto_search_page" 
+                                                style="position:absolute;width:100%;height:100%;display: flex;justify-content: flex-start;align-items: center;background:#F0F8FF ;border-radius: 100rpx;padding: 0 15rpx;">
+        {{'🔍 搜索商品~'}}
+    </view> -->
+    <input confirm-type="search---" bindinput="handleSubmit" class="search-word" placeholder="🔍 甄嬛传" bindconfirm="searchbegin" focus="true"
+                                                style="position:absolute;width:100%;height:100%;display: flex;justify-content: flex-start;align-items: center;background:#F0F8FF ;border-radius: 100rpx;padding: 0 15rpx;"></input>
+  </view>
+</view>
+
+<!-- 头部 -->
+<view class="head" style="background: #f5f5f5;">
+  <view class="outer {{scrollTop > 300 ? 'topnav' : ''}}">
+    <scroll-view class="t-channel-"
+      style="display:flex;flex-direction:row;white-space:nowrap;align-items:left;justify-content:left;height:80rpx;width:100%;background:#fff"
+      enable-flex scroll-x="{{true}}">
+      <view class="{{current_channel===item.id?'channel-active':''}}"
+        style="margin:10rpx 20rpx;padding:0rpx 0rpx;height:60rpx;line-height:60rpx;font-size:28rpx;font-weight:500;"
+        wx:for="{{channel_list}}" wx:key="index" bind:tap="select_channel" data-id="{{item.id}}">{{item.name}}</view>
+    </scroll-view>
+  </view>
+</view>
+
+<!-- 内容列表 -->
+<view class="body"                          style="display:flex;background:#f5f5f5;padding:6rpx 14rpx;">
+  <view class="item-list"                   style="display:flex;flex-flow:row wrap;justify-content:space-between;">
+    <view class="card" wx:for="{{ item_list }}" wx:key="index"
+                        data-item_detail_home="{{item}}" bind:tap="func_goto_item_details_page"
+                                            style="display:flex;width:calc((100% - 28rpx) / 3); /* 计算单个卡片宽度，留出间隙 */ border-radius:16rpx;align-items:center;justify-content:center;margin-bottom:14rpx;flex-direction:column;background:#fff;">
+      <view class="card-upper" data-video_detail_home="{{item}}" 
+                                            style="display:flex;justify-content:center;align-items:center;width:100%;height:100%;">
+        <image src="{{item.drama_cover_url}}"     style="display:flex;border-radius:16rpx 16rpx 0 0;" mode="aspectFill" referrerPolicy="no-referrer">
+        </image>
+      </view>
+      <view class="card-down"  data-video_detail_home="{{item}}"
+                                            style="display:flex;flex-direction:column;background: #fff;width:calc(100% - 20rpx); /* 适当调整内部内容宽度 */ border-radius:0 0 16rpx 16rpx;padding:16rpx 10rpx;">
+        <view class="title"                 style="font-size:28rpx;display:-webkit-box;overflow:hidden;-webkit-box-orient: vertical;-webkit-line-clamp:1;">
+          {{item.drama_name}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <image class='ttgo-top' src='../../images/up_top.png' hidden='{{!floorstatus}}' bindtap="go_top" 
+                                            style=" height: 80rpx;width:80rpx;position:fixed;bottom:50px;background: rgba(0,0,0,.3);right: 30rpx;border-radius:50%;opacity: 0.8;" >
+  </image>
+
+</view>
+
