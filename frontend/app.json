@@ -1,8 +1,36 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/logs/logs"
+    "pages/video/home/home",
+    "pages/video/details_single/index",
+    "pages/video/recommend/index",
+    "pages/video/search/index",
+
+    "pages/shop/home/home",
+    "pages/shop/goods/details-jd/index",
+    "pages/shop/goods/details-pdd/index",
+    "pages/shop/goods/search/index",
+    "pages/finance/home/home",
+    "pages/user_center/index"
   ],
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#FF9C35",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/shop/home/home",
+        "text": "购物"
+      },
+      {
+        "pagePath": "pages/video/home/home",
+        "text": "视频"
+      },
+      {
+        "pagePath": "pages/user_center/index",
+        "text": "我的"
+      }
+    ]
+  },
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "Weixin",

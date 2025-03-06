@@ -26,7 +26,7 @@ def func_get_video_series_info_by_item_id(req, data):
     # 生成条件掩码 # 仅对符合条件的行操作
     mask = video_page['drama_type'].isin([0, 3])
     video_page.loc[mask, 'drama_name'] = "第" + video_page['episode'].astype(str) + "集|" + video_page['drama_name']
-    print(video_page)
+    # print(video_page)
     return video_page
 
 
@@ -47,24 +47,13 @@ def func_search_drama_by_keyword(req_in, data):
     # print(drama_name_list)
     # 查找与目标字符串最匹配的多个字符串
     best_matches = process.extract(req_in['keyword'], drama_name_list, limit=(page_index+1)*page_size)
-    print(f"多个最佳匹配: {best_matches}")
+    # print(f"多个最佳匹配: {best_matches}")
     sim_df = pd.DataFrame([{'drama_id': drama_id_list[item[2]], 'score':item[1], 'name':item[0]} for item in best_matches])
     filtered_df = pd.merge(sim_df, data, on='drama_id')
-    filtered_df = filtered_df[filtered_df['score'] > 0]
-    filtered_df = filtered_df[page_index * page_size:(page_index + 1) * page_size]
-    print(filtered_df)
-    # # 筛选出 drama_id 列包含在 ids 列表中的行
-    # print('111111111111111111111111111111111111111111111111')
-    # filtered_df = data[data['drama_id'].isin(ids)].copy()
-    # print(filtered_df)
-    # # 将 drama_id 列转换为 Categorical 类型，并指定顺序
-    # filtered_df['drama_id'] = pd.Categorical(filtered_df['drama_id'], categories=ids, ordered=True)
-    # print(filtered_df)
-    # # 按照 drama_id 列排序
-    # filtered_df = filtered_df.sort_values(by='drama_id')
-    # print(filtered_df)
-    # print('2222222222222222222222222222222222222222222222222')
-    return filtered_df
+    # filtered_df = filtered_df[filtered_df['score'] > 0]
+    filtered_df['rank'] = filtered_df.groupby('drama_type')['score'].rank(method='first', ascending=False)
+    video_page = filtered_df[page_index * page_size:(page_index + 1) * page_size]
+    return video_page
 
 
 if __name__ == '__main__':

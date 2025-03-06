@@ -61,7 +61,7 @@ def get_baidu_haokan_video():
             print(data_df)
             pprint(data_df.head(1).to_dict(orient='records'))
 
-            func_mysql.func_insert_data_into_mysql_table_df_tosql(data_df=data_df, database='video', table_name='video_baidu_haokan')
+            # func_mysql.func_insert_data_into_mysql_table_df_tosql(data_df=data_df, database='video', table_name='video_baidu_haokan')
             time.sleep(random.randint(3, 10))
 
 

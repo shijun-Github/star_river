@@ -13,6 +13,9 @@ from sklearn.utils import shuffle
 pd.set_option('expand_frame_repr', False)  # 显示的时候不换行
 pd.set_option('display.max_columns', None)  # 显示所有列
 
+
+
+
 def func_random_get_drama(req, data):
     """
     剧级别的
@@ -22,13 +25,13 @@ def func_random_get_drama(req, data):
     # drama_info = pd.read_csv(os.path.abspath(__file__).split('recall')[0] + 'data/video_info.csv')
     drama_info = data
     drama_info = drama_info[drama_info['drama_type'].isin(req['video_type'])]
-    print(drama_info)
+    # print(drama_info)
     weekday = datetime.datetime.now().weekday()
     drama_info = shuffle(drama_info, random_state=weekday)
     drama_page = drama_info[page_index * page_size:(page_index + 1) * page_size]
     # drama_page = drama_page.rename(columns={'drama_id': 'id', 'drama_name': 'name', 'drama_desc': 'desc', 'drama_cover_url': 'cover_url'})
     # drama_page = drama_page[['id', 'name', 'cover_url', 'desc']]
-    print(drama_page)
+    # print(drama_page)
     return drama_page
 
 
@@ -45,16 +48,16 @@ def func_random_get_video(req, data):
     video_info = video_info[video_info['video_url'].str.contains("prod")]
     # video_info['episode'] = video_info['episode'].astype(int)
     video_info = video_info[video_info['episode']==1]
-    print(video_info)
-    print(video_info.groupby('episode').size())
-    print('+++++++++++++++++++++++++++++++++++++++++')
+    # print(video_info)
+    # print(video_info.groupby('episode').size())
+    # print('+++++++++++++++++++++++++++++++++++++++++')
     weekday = datetime.datetime.now().weekday()
     video_info = shuffle(video_info, random_state=weekday)
     video_page = video_info[page_index * page_size:(page_index + 1) * page_size]
-    print(video_page)
+    # print(video_page)
     video_page = video_page.rename(columns={'video_id': 'id', 'drama_name': 'name', 'drama_desc': 'desc'})
     # video_page = video_page[['id', 'name', 'cover_url', 'desc']]
-    print(video_page)
+    # print(video_page)
     return video_page
 
 

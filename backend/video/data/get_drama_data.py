@@ -10,9 +10,7 @@ import pymysql
 import os
 import webbrowser
 import math
-import faiss
 import requests
-import jieba
 from gensim.models import word2vec, Word2Vec
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import shuffle
@@ -53,8 +51,8 @@ def  func_get_drama(config):
                         join hobby_star_blog.t_star_blog t3 on t2.business_id = t3.id
                         where t1.drama_type in (0, 3, 10) and  t2.deleted=0 and t3.deleted=0 
                         )""", config=config, mysql_config='1')
-    pprint(video_info.head(20).to_dict(orient='records'))
     print(video_info)
+    print(video_info.groupby('drama_type').size())
 
     # # 获取当前脚本文件的绝对路径
     # current_file_path = os.path.abspath(__file__)

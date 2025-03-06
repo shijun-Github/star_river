@@ -137,6 +137,7 @@ def inter_func_search_drama_by_keyword():
     res = {'res':
                {'data': res_list_dict}
            }
+    res = json.dumps(res, ensure_ascii=False)
     print(time.time() - t_s)
     return res
 
