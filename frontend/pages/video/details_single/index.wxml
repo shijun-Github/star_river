@@ -1,0 +1,44 @@
+<!--pages/video/recommend/index.wxml-->
+<!--<text>pages/video/square/index.wxml</text>-->
+<view wx:if="{{isLoading}}" class="loading-container">
+  <view class="loading-spinner"></view>
+  <text>正在加载视频，请稍候...</text>
+</view>
+<swiper class="q_swiper-" circular="{{true}}" vertical="{{true}}" current="{{swiperCurrent}}" bindchange="q_swiperBindchange" style="width:100%;height:100%;">
+    <block wx:for="{{q_videos}}" wx:key="q_videos">
+        <swiper-item>
+            <!-- wx:if="{{index==q_videoIndex}}" 用于控制只播放当前视频，否则多个视频会同时播放没刷到的也会播放 -->
+            <view class="q_videoView-" wx:if="{{index==q_videoIndex}}"
+                                                style="width: 100%; height: 100%; position: relative;">
+                <video src="{{item.video_url}}" poster="{{item.video_cover_url}}"
+                        autoplay="{{true}}" loop="{{false}}" enable-play-gesture="{{true}}"
+                        play-btn-position="bottom" bindended="onVideoEnded"
+                                                    style="width:100%;height:100%;position: absolute;top:0;left: 0;">
+                </video>
+
+                <view class="video-name-"           style="position: absolute;bottom: 30px;left: 10px;color: white;font-size: 22px;background-color: rgba(0, 0, 0, 0.5);padding: 5px 10px;border-radius: 5px;z-index: 1; ">
+                    {{item.drama_name}}
+                </view>
+
+                <!-- 选集按钮（右下角） -->
+                <view bindtap="toggleEpisodePanel"  style="position: absolute;bottom: 40px;right: 50px;z-index: 999;">
+                  <text                             style="color: white;background-color: rgba(0,0,0,0.7);padding: 5px 10px;border-radius: 4px;">选集▲</text>
+                </view>
+
+                <!-- 二维网格选集面板 -->
+                <scroll-view scroll-y wx:if="{{showEpisodePanel}}"
+                                                    style="position: absolute;bottom: 80px;right: 10px;background-color: rgba(0,0,0,0.8);padding: 10px;z-index: 999;width: 600rpx;max-height: 800rpx;border-radius: 8px;overflow-y: auto;">
+                  <view                             style="display: flex;flex-wrap: wrap;gap: 8rpx;">
+                    <block wx:for="{{q_videos}}" wx:key="index">
+                      <view bindtap="selectEpisode" data-index="{{index}}"
+                                                    style="width: 110rpx;height: 110rpx;background-color: {{index === q_videoIndex ? '#ffd700' : '#333'}};color: white;display: flex;align-items: center;justify-content: center;border-radius: 4rpx;font-size: 24rpx;">
+                        {{item.episode}}
+                      </view>
+                    </block>
+                  </view>
+                </scroll-view>
+            </view>
+        </swiper-item>
+    </block>
+</swiper>
+

@@ -1,0 +1,13 @@
+<!--pages/goods/details_jd/index.wxml-->
+<view class="goods-detail-page">
+  <view class="goods-card">
+    <video
+      class="goods-card-upper-video"
+      id="video{{index}}"
+      loop="{{true}}"
+      show-center-play-btn="{{false}}"
+      enable-play-gesture="{{true}}"
+      src="{{video_info.video_url}}">
+    </video>
+  </view>
+</view>
