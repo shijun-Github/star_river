@@ -7,13 +7,11 @@ import sys
 from datetime import datetime, timedelta
 from pprint import pprint
 from threading import Thread, Lock
-
-from sklearn.utils import shuffle
 from waitress import serve
 import pandas as pd
 import requests
 from flask import Flask, jsonify, request
-from OpenSSL import SSL
+# from OpenSSL import SSL
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -60,7 +58,7 @@ def start_scheduler():
     redis_es_filter_realtime()
     """
     scheduler = BackgroundScheduler()
-    scheduler.add_job(persist_data_in_service, 'interval', seconds=1*60)
+    scheduler.add_job(persist_data_in_service, 'interval', seconds=1*60*60)
     # scheduler.add_job(loadFaisIndex, 'interval', seconds=60 * 60)
     scheduler.start()
 
@@ -92,14 +90,14 @@ def inter_drama_home_all():
     # global drama_info  # 声明我们要使用全局变量
     t_s = time.time()
     parameters = json.loads(request.get_data().decode("utf-8"))
-    print("request data +++++++++", time.time(), parameters)
+    # print("request data +++++++++", time.time(), parameters)
     drama_page = base_rec.func_random_get_drama(parameters, drama_info)
     res_list_dict = drama_page.to_dict(orient='records')
     res = {'res':
                {'data': res_list_dict}
            }
     res = json.dumps(res, ensure_ascii=False)
-    print('inter_drama_home_all()  /video/drama/square ', time.time() - t_s)
+    # print('inter_drama_home_all()  /video/drama/square ', time.time() - t_s)
     return res
 
 @app.route("/video/search/func_get_video_series_info_by_item_id", methods=["POST", "GET"])
@@ -111,14 +109,14 @@ def inter_func_get_video_series_info_by_item_id():
     t_s = time.time()
     if request.method == 'GET': parameters = request.args.to_dict()
     else: parameters = json.loads(request.get_data().decode("utf-8"))
-    print("request data +++++++++", time.time(), parameters)
+    # print("request data +++++++++", time.time(), parameters)
     drama_page = search_func.func_get_video_series_info_by_item_id(parameters, video_info)
     res_list_dict = drama_page.to_dict(orient='records')
     res = {'res':
                {'data': res_list_dict}
            }
     res = json.dumps(res, ensure_ascii=False)
-    print('inter_drama_home_all()  /video/drama/square ', time.time() - t_s)
+    # print('inter_func_get_video_series_info_by_item_id() func_get_video_series_info_by_item_id ', time.time() - t_s)
     return res
 
 
@@ -131,14 +129,14 @@ def inter_func_search_drama_by_keyword():
     t_s = time.time()
     if request.method == 'GET': parameters = request.args.to_dict()
     else: parameters = json.loads(request.get_data().decode("utf-8"))
-    print("request data +++++++++", time.time(), parameters)
+    # print("request data +++++++++", time.time(), parameters)
     drama_page = search_func.func_search_drama_by_keyword(parameters, drama_info)
     res_list_dict = drama_page.to_dict(orient='records')
     res = {'res':
                {'data': res_list_dict}
            }
     res = json.dumps(res, ensure_ascii=False)
-    print(time.time() - t_s)
+    # print(time.time() - t_s)
     return res
 
 # @app.route("/video/search", methods=["POST", "GET"])
@@ -163,14 +161,16 @@ def inter_func_search_drama_by_keyword():
 if __name__ == '__main__':
     """
     服务
-    gunicorn -w 4 -b 0.0.0.0:8528 start_service.py:app
-    nohup python start_service.py
-
-    该程序 已启动本地服务 ps -ef|grep start_service.py
+        gunicorn -w 4 -b 0.0.0.0:8528 video_service.py:app
+        nohup python video_service.py
+    该程序 已启动本地服务 ps -ef|grep video_service.py
+    (37)  start python .\video_service.py
+    pip -i https://pypi.tuna.tsinghua.edu.cn/simple install scikit-learn
     """
     print("扛起大刀。。。")
-    start_scheduler()   # 定期刷新数据
-    app.run(host="0.0.0.0", port=8588, debug=False)
+    # start_scheduler()   # 定期刷新数据
+    # app.run(host="0.0.0.0", port=8588, debug=False)
+    serve(app, host='0.0.0.0', port=8588, threads=3)
 
 
     # t = os.path.dirname(os.path.abspath(__file__)).split('video')[0] + 'utils/ssl/'

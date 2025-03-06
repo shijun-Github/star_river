@@ -40,7 +40,7 @@ Page({
     this.setData({
       menuButtonInfo: wx.getMenuButtonBoundingClientRect()
     })
-    console.log(this.data.menuButtonInfo)
+    // console.log(this.data.menuButtonInfo)
     const { top, width, height, right } = this.data.menuButtonInfo
     wx.getSystemInfo({
       success: (res) => {
@@ -58,6 +58,7 @@ Page({
 
   // 获取物品列表
   func_get_item_list: function (cb){
+    // console.log("++++++++111111111111111111111111111111+++++++")
     const url_pre = getApp().globalData.apiUrl
     wx.request({
       url: url_pre + 'video/drama/square',
