@@ -1,3 +1,4 @@
+import datetime
 import os
 import sys
 from pprint import pprint
@@ -21,7 +22,9 @@ def func_random_get_drama(req, data):
     # drama_info = pd.read_csv(os.path.abspath(__file__).split('recall')[0] + 'data/video_info.csv')
     drama_info = data
     drama_info = drama_info[drama_info['drama_type'].isin(req['video_type'])]
-    drama_info = shuffle(drama_info)
+    print(drama_info)
+    weekday = datetime.datetime.now().weekday()
+    drama_info = shuffle(drama_info, random_state=weekday)
     drama_page = drama_info[page_index * page_size:(page_index + 1) * page_size]
     # drama_page = drama_page.rename(columns={'drama_id': 'id', 'drama_name': 'name', 'drama_desc': 'desc', 'drama_cover_url': 'cover_url'})
     # drama_page = drama_page[['id', 'name', 'cover_url', 'desc']]
@@ -45,7 +48,8 @@ def func_random_get_video(req, data):
     print(video_info)
     print(video_info.groupby('episode').size())
     print('+++++++++++++++++++++++++++++++++++++++++')
-    video_info = shuffle(video_info)
+    weekday = datetime.datetime.now().weekday()
+    video_info = shuffle(video_info, random_state=weekday)
     video_page = video_info[page_index * page_size:(page_index + 1) * page_size]
     print(video_page)
     video_page = video_page.rename(columns={'video_id': 'id', 'drama_name': 'name', 'drama_desc': 'desc'})

@@ -13,7 +13,6 @@ Page({
     video_type:[0, 3, 10],  // '短剧类型：0-短剧 2-合集 3-影视剧 10-电影',
     showEpisodePanel: false,  // 新增：控制选集面板显示
     swiperCurrent: 0,  // 新增：Swiper 当前项
-    videoLoading: false, // 新增：控制视频加载提示显示
   },
 
   /**
@@ -38,27 +37,15 @@ Page({
         "item_info": item_info
       },
       success: res => {
-        const vdieo_list_deal = res.data.res.data   // 内容中不要有空值，哪怕是在不用的key里面，容易报错
-        console.log("detail_single  33333333333333333333333333", typeof(vdieo_list_deal), vdieo_list_deal)
-        var array = this.data.q_videos.concat(vdieo_list_deal) //concat() 方法：用于连接两个或多个数组,并返回一个新数组 .concat(item_list_demo)
+        const video_list_deal = res.data.res.data   // 内容中不要有空值，哪怕是在不用的key里面，容易报错
+        console.log("detail_single  33333333333333333333333333", typeof(video_list_deal), video_list_deal)
+        var array = this.data.q_videos.concat(video_list_deal) //concat() 方法：用于连接两个或多个数组,并返回一个新数组 .concat(item_list_demo)
         console.log("detail_single  4444444444444444444444444", typeof(array), array)
         this.setData({
           q_videos: array, //视频
         })
       }
     })
-  },
-
- // 视频加载事件监听
-  onVideoLoadstart: function () {
-    this.setData({
-      videoLoading: true
-    });
-  },
-  onVideoLoadedmetadata: function () {
-    this.setData({
-      videoLoading: false
-    });
   },
 
   //动态更新当前视频下标
@@ -74,23 +61,21 @@ Page({
     // }
   },
 
-    // 切换面板（阻止冒泡）
-    toggleEpisodePanel: function() {
-        this.setData({ 
-          showEpisodePanel: !this.data.showEpisodePanel,
-          isVideoLoaded: true
-        });
-      },
+  // 切换面板（阻止冒泡）
+  toggleEpisodePanel: function() {
+      this.setData({
+        showEpisodePanel: !this.data.showEpisodePanel,
+        isVideoLoaded: true
+      });
+    },
 
-
-  // 切换剧集
+  // 切换剧集（跳到你想看的某一集）
   selectEpisode: function(e) {
     const index = e.currentTarget.dataset.index;
     if (index < 0 || index >= this.data.q_videos.length) {
       wx.showToast({ title: '无效的剧集', icon: 'none' });
       return;
     }
-
     this.setData({
       q_videoIndex: index,
       swiperCurrent: index,  // 同步 Swiper 位置
@@ -103,16 +88,19 @@ Page({
     });
   },
 
-  // Swiper 滑动回调
-  q_swiperBindchange: function(e) {
-    const current = e.detail.current;
-    this.setData({
-      q_videoIndex: current,
-      swiperCurrent: current  // 同步 Swiper 位置
-    });
+  // 切换到下一集
+  onVideoEnded: function() {
+    const next_index = (this.data.q_videoIndex + 1)
+    if (next_index < this.data.q_videos.length) {
+      this.setData({
+        q_videoIndex: next_index,
+        swiperCurrent: next_index,  // 同步 Swiper 位置
+      });
+      this.videoContext = wx.createVideoContext('myVideo');  // 确保视图更新后强制视频刷新
+      this.videoContext.play();
+    } else {
+      wx.showToast({ title: '全剧终', icon: 'success', duration: 5000});
+    }
   },
-
-
-
 })
 

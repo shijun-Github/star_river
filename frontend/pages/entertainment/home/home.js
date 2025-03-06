@@ -16,7 +16,7 @@ Page({
     current_channel: 999,
     video_type: [0, 3, 10],
     page_index:0,
-    page_size:12,
+    page_size:16,
 
     scroll_top: 0, //滚动条高度
     // 定义顶部栏-

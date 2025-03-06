@@ -1,40 +1,15 @@
 {
   "pages": [
-    "pages/entertainment/home/home",
-    "pages/entertainment/details_single/index",
-    "pages/entertainment/recommend/index",
-    "pages/entertainment/search/index",
-
-    "pages/shop/home/home",
-    "pages/shop/goods/details-jd/index",
-    "pages/shop/goods/details-pdd/index",
-    "pages/shop/goods/search/index",
-    "pages/finance/home/home",
-    "pages/usercenter/index"
+    "pages/index/index",
+    "pages/logs/logs"
   ],
-  "lazyCodeLoading": "requiredComponents",
-  "tabBar": {
-    "color": "#8a8a8a",
-    "selectedColor": "#FF9C35",
-    "borderStyle": "black",
-    "list": [
-      {
-        "pagePath": "pages/shop/home/home",
-        "text": "购物"
-      },
-      {
-        "pagePath": "pages/entertainment/home/home",
-        "text": "视频"
-      },
-      {
-        "pagePath": "pages/usercenter/index",
-        "text": "我的"
-      }
-    ]
-  },
   "window": {
-    "navigationStyle": "custom"
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarBackgroundColor": "#ffffff"
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
 }

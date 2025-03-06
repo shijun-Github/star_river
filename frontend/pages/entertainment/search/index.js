@@ -16,7 +16,7 @@ Page({
     current_channel: 999,
     video_type: [0, 3, 10],
     page_index:0,
-    page_size:12,
+    page_size:16,
 
     scroll_top: 0, //滚动条高度
     // 定义顶部栏-
@@ -110,7 +110,7 @@ Page({
         if (item_list_batch.length in [null, 0]){
             wx.showModal({
                 title: '提示',
-                content: '本频道已经没有内容，切换到其他频道看看'
+                content: '该词搜索到的内容已经刷完，换个关键词试一试'
               })
         }
         this.setData({item_list: [...this.data.item_list, ...item_list_batch]})

@@ -35,27 +35,38 @@ def func_search_drama_by_keyword(req_in, data):
     剧集级别的， 单集级别
      随机从剧集池子中获取 batch_size个剧集
      """
-    print('++++++++++++++++++++++++++++++++++++++')
-    print(data)
-    print(req_in)
+    # print(data)
+    # print(req_in)
+    page_index, page_size = req_in['page_index'], req_in['page_size']
+
     video_info = data[data['drama_type'].isin(req_in['video_type'])]
-    print(video_info)
-    print(video_info.groupby('drama_type').size())
+    # print(video_info)
+    # print(video_info.groupby('drama_type').size())
     drama_id_list = video_info['drama_id'].tolist()
     drama_name_list = video_info['drama_name'].tolist()
     # print(drama_name_list)
     # 查找与目标字符串最匹配的多个字符串
-    best_matches = process.extract(req_in['keyword'], drama_name_list, limit=req_in['page_size'])
+    best_matches = process.extract(req_in['keyword'], drama_name_list, limit=(page_index+1)*page_size)
     print(f"多个最佳匹配: {best_matches}")
-    index_list = [item[2] for item in best_matches]
-    ids = [drama_id_list[item] for item in index_list]
-    # 筛选出 drama_id 列包含在 ids 列表中的行
-    filtered_df = data[data['drama_id'].isin(ids)].copy()
-    # 将 drama_id 列转换为 Categorical 类型，并指定顺序
-    filtered_df['drama_id'] = pd.Categorical(filtered_df['drama_id'], categories=ids, ordered=True)
-    # 按照 drama_id 列排序
-    filtered_df = filtered_df.sort_values(by='drama_id')
+    sim_df = pd.DataFrame([{'drama_id': drama_id_list[item[2]], 'score':item[1], 'name':item[0]} for item in best_matches])
+    filtered_df = pd.merge(sim_df, data, on='drama_id')
+    filtered_df = filtered_df[filtered_df['score'] > 0]
+    filtered_df = filtered_df[page_index * page_size:(page_index + 1) * page_size]
+    print(filtered_df)
+    # # 筛选出 drama_id 列包含在 ids 列表中的行
+    # print('111111111111111111111111111111111111111111111111')
+    # filtered_df = data[data['drama_id'].isin(ids)].copy()
+    # print(filtered_df)
+    # # 将 drama_id 列转换为 Categorical 类型，并指定顺序
+    # filtered_df['drama_id'] = pd.Categorical(filtered_df['drama_id'], categories=ids, ordered=True)
+    # print(filtered_df)
+    # # 按照 drama_id 列排序
+    # filtered_df = filtered_df.sort_values(by='drama_id')
+    # print(filtered_df)
+    # print('2222222222222222222222222222222222222222222222222')
     return filtered_df
+
+
 if __name__ == '__main__':
     """ 
     这里是兜底数据，保证至少又内容可以推出来

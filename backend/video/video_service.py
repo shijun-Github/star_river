@@ -13,6 +13,7 @@ from waitress import serve
 import pandas as pd
 import requests
 from flask import Flask, jsonify, request
+from OpenSSL import SSL
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -48,8 +49,8 @@ def persist_data_in_service():
     drama_info['drama_id'] = drama_info['drama_id'].astype(str)
     video_info['drama_id'] = video_info['drama_id'].astype(str)
     video_info['video_id'] = video_info['video_id'].astype(str)
-    print(drama_info)
-    print(video_info)
+    # print(drama_info)
+    # print(video_info)
     print('persist_data_in_service', time.time(), 'drama_info.shape:', drama_info.shape, 'video_info.shape:', video_info.shape)
 
 
@@ -64,29 +65,29 @@ def start_scheduler():
     scheduler.start()
 
 
-@app.route("/video/recommend", methods=["POST", "GET"])
-def inter_drama_home_recommend():
-    """
-    打开软件，主页推荐页的
-    """
-    # global video_info  # 声明我们要使用全局变量
-    t_s = time.time()
-    if request.method == 'GET': parameters = request.args.to_dict()
-    else: parameters = json.loads(request.get_data().decode("utf-8"))
-    print("request data +++++++++", time.time(), parameters)
-    video_page = base_rec.func_random_get_video(parameters, video_info)
-    res_list_dict = video_page.to_dict(orient='records')
-    res = {'res':
-               {'data': res_list_dict}
-           }
-    print(time.time() - t_s)
-    return res
+# @app.route("/video/recommend", methods=["POST", "GET"])
+# def inter_drama_home_recommend():
+#     """
+#     打开软件，主页推荐页的
+#     """
+#     # global video_info  # 声明我们要使用全局变量
+#     t_s = time.time()
+#     if request.method == 'GET': parameters = request.args.to_dict()
+#     else: parameters = json.loads(request.get_data().decode("utf-8"))
+#     print("request data +++++++++", time.time(), parameters)
+#     video_page = base_rec.func_random_get_video(parameters, video_info)
+#     res_list_dict = video_page.to_dict(orient='records')
+#     res = {'res':
+#                {'data': res_list_dict}
+#            }
+#     print(time.time() - t_s)
+#     return res
 
 
 @app.route("/video/drama/square", methods=["POST", "GET"])
 def inter_drama_home_all():
     """
-    剧目录页
+    剧主页推荐
     """
     # global drama_info  # 声明我们要使用全局变量
     t_s = time.time()
@@ -104,7 +105,7 @@ def inter_drama_home_all():
 @app.route("/video/search/func_get_video_series_info_by_item_id", methods=["POST", "GET"])
 def inter_func_get_video_series_info_by_item_id():
     """
-    给关键词，返回一批剧
+    给剧id，返回该剧下的所有视频信息
     """
     # global drama_info  # 声明我们要使用全局变量
     t_s = time.time()
@@ -124,7 +125,7 @@ def inter_func_get_video_series_info_by_item_id():
 @app.route("/video/search/func_search_drama_by_keyword", methods=["POST", "GET"])
 def inter_func_search_drama_by_keyword():
     """
-    给关键词，返回一批剧
+    给关键词，搜索最相似的一批剧
     """
     # global drama_info  # 声明我们要使用全局变量
     t_s = time.time()
@@ -139,49 +140,23 @@ def inter_func_search_drama_by_keyword():
     print(time.time() - t_s)
     return res
 
-@app.route("/video/search", methods=["POST", "GET"])
-def inter_drama_search():
-    """
-    给关键词，返回一批剧
-    """
-    global drama_info  # 声明我们要使用全局变量
-    t_s = time.time()
-    if request.method == 'GET': parameters = request.args.to_dict()
-    else: parameters = json.loads(request.get_data().decode("utf-8"))
-    print("request data +++++++++", time.time(), parameters)
-    drama_page = keyword_search.func_key_word_search_drama(parameters, drama_info)
-    res_list_dict = drama_page.to_dict(orient='records')
-    res = {'res':
-               {'data': res_list_dict}
-           }
-    print(time.time() - t_s)
-    return res
-    # pageNum = 1
-    # pageSize = 10
-    # keyword = "哈哈哈"
-    # if "pageNum" in req:
-    #     pageNum = req["pageNum"]
-    # if "pageSize" in req:
-    #     pageSize = req["pageSize"]
-    # if "keyword" in req:
-    #     keyword = req["keyword"]
-    # t_s = time.time()
-    # topic_id_set = get_invalid_id("hobby_rec_text_recall_topic_invalid_")
-    # keyword_id_set = get_invalid_id("hobby_rec_text_recall_keyword_invalid_")
-    # topic_data = func_faiss_drama_keyword_search(keyword, topic_faiss_index, 1, topic_id_set)
-    # keyword_data = func_faiss_drama_keyword_search(keyword, keyword_faiss_index, 2, keyword_id_set)
-    # re_data = topic_data + keyword_data
-    # re_data = sorted(re_data, key=lambda x: x["score"])
-    # start_index = (pageNum - 1) * pageSize
-    # end_index = start_index + pageSize
-    # page_data = re_data[start_index:end_index]
-    # print('cost time: ', time.time() - t_s)
-    # res = {
-    #     "return_code": 0,
-    #     "return_message": "success",
-    #     "data": page_data
-    # }
-    # return res
+# @app.route("/video/search", methods=["POST", "GET"])
+# def inter_drama_search():
+#     """
+#     给关键词，返回一批剧
+#     """
+#     global drama_info  # 声明我们要使用全局变量
+#     t_s = time.time()
+#     if request.method == 'GET': parameters = request.args.to_dict()
+#     else: parameters = json.loads(request.get_data().decode("utf-8"))
+#     print("request data +++++++++", time.time(), parameters)
+#     drama_page = keyword_search.func_key_word_search_drama(parameters, drama_info)
+#     res_list_dict = drama_page.to_dict(orient='records')
+#     res = {'res':
+#                {'data': res_list_dict}
+#            }
+#     print(time.time() - t_s)
+#     return res
 
 
 if __name__ == '__main__':
@@ -194,8 +169,22 @@ if __name__ == '__main__':
     """
     print("扛起大刀。。。")
     start_scheduler()   # 定期刷新数据
-    # print(os.path.dirname(os.path.abspath(__file__)))
+    app.run(host="0.0.0.0", port=8588, debug=False)
 
-    app.run(host='0.0.0.0', port=8588, debug=False)
+
+    # t = os.path.dirname(os.path.abspath(__file__)).split('video')[0] + 'utils/ssl/'
+    # cert_path = t + 'server.pem'
+    # key_path = t + 'server.key'
+    # if not os.path.exists(cert_path) or not os.path.exists(key_path):
+    #     print(f"证书或密钥文件不存在：{cert_path}, {key_path}")
+    # else:
+    #     context = (cert_path, key_path)
+    #     app.run(host='0.0.0.0', port=8588, debug=False, ssl_context=context)
+
+    # context = SSL.Context(SSL.SSLv23_METHOD)
+    # context.use_privatekey_file('key.pem')
+    # context.use_certificate_file('cert.pem')
+    # app.run(ssl_context=context)
+
     # serve(app, host='0.0.0.0', port=8588, threads=3)
     # app.run(host="0.0.0.0", port=8588, ssl_context="adhoc")
