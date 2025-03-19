@@ -24,11 +24,13 @@ print(labels)
 
 
 import numpy as np
+import pandas as pd
 print(np.__version__)  # 应输出1.19.5
 print('++++++++++++++++++++++++++++++')
 import tensorflow as tf
 print(tf.__version__)  # 确保无报错
 
+print('------------------------------')
 
 
 import tensorflow as tf

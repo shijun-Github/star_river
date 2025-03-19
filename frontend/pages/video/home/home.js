@@ -71,6 +71,7 @@ Page({
       },
       success: res => {
         // 替换掉内容中特殊字符串
+        console.log("+++++++++", res)
         const deal_res = typeof res.data === 'string' ? JSON.parse(res.data.replace(/NaN/g, 'null')): res.data
         const item_list_batch = deal_res.res.data
         console.log("+++++++++++++++++++++item_list_batch++++++++++++++", typeof(item_list_batch), item_list_batch, this.data.current_channel)
