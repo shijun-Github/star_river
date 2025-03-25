@@ -1,9 +1,9 @@
 App({
   globalData: {
     userInfo: {openid:null},
-    apiUrl: 'http://127.0.0.1:8588/'
-    // apiUrl: 'http://10.1.30.237:8588/'
-    // apiUrl: 'https://85910d51p2.zicp.fun/'
+//    apiUrl: 'http://127.0.0.1:8588/'
+//     apiUrl: 'http://192.168.0.112:8588/'
+     apiUrl: 'https://85910d51p2.zicp.fun/'
   },
   onLaunch: function () {
     // 展示本地存储能力

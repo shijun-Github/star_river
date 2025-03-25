@@ -76,7 +76,7 @@ Page({
   func_get_item_list: function (cb){
     // const url_pre = 'https://85910d51p2.zicp.fun'
     const url_pre = getApp().globalData.apiUrl
-    console.log('99999-----+++++++++++++++')
+    console.log('goods  99999-----+++++++++++++++')
     console.log(this.data)
     console.log('99999-----+++++++++++++++')
     wx.request({
@@ -89,8 +89,8 @@ Page({
         'page_size': this.data.page_size
       },
       success: res => {
-        const item_list_batch = res.data.res_data
-        console.log("---------12345678900000000000", typeof(res.data), res.data)
+        const item_list_batch = res.data
+        console.log("goods ---------12345678900000000000", typeof(res.data), res.data)
         if (item_list_batch.length in [null, 0]){
             wx.showModal({
                 title: '提示',

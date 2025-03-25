@@ -14,6 +14,7 @@ from flask import Flask, jsonify, request
 # from OpenSSL import SSL
 from apscheduler.schedulers.background import BackgroundScheduler
 
+
 # 获取当前脚本所在的目录
 current_dir = os.path.dirname(os.path.abspath(__file__))
 # 获取项目根目录（假设 aa_recommend_complete_project 是根目录下的一个包）
@@ -170,21 +171,3 @@ if __name__ == '__main__':
     # start_scheduler()   # 定期刷新数据
     app.run(host="0.0.0.0", port=8588, debug=False)
     # serve(app, host='0.0.0.0', port=8588, threads=3)
-
-
-    # t = os.path.dirname(os.path.abspath(__file__)).split('video')[0] + 'utils/ssl/'
-    # cert_path = t + 'server.pem'
-    # key_path = t + 'server.key'
-    # if not os.path.exists(cert_path) or not os.path.exists(key_path):
-    #     print(f"证书或密钥文件不存在：{cert_path}, {key_path}")
-    # else:
-    #     context = (cert_path, key_path)
-    #     app.run(host='0.0.0.0', port=8588, debug=False, ssl_context=context)
-
-    # context = SSL.Context(SSL.SSLv23_METHOD)
-    # context.use_privatekey_file('key.pem')
-    # context.use_certificate_file('cert.pem')
-    # app.run(ssl_context=context)
-
-    # serve(app, host='0.0.0.0', port=8588, threads=3)
-    # app.run(host="0.0.0.0", port=8588, ssl_context="adhoc")

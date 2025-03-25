@@ -136,5 +136,5 @@ if __name__ == '__main__':
     """
     """
     print("扛起达到向前冲！！！")
-    func_get_goods_info_jd()
-    # func_get_goods_info_jd_file()
+    # func_get_goods_info_jd()
+    func_get_goods_info_jd_file()
